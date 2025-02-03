@@ -43,7 +43,7 @@ import os
 import argparse
 from pathlib import Path
 import torch
-import multiprocessing
+import multiprocessing as mp
 from functools import partial
 import subprocess
 
@@ -81,15 +81,16 @@ def main(args):
         exit()
 
     # Use multiprocessing to parallelize on GPUs
-    with multiprocessing.Pool(processes=device_count) as pool:
+    with mp.Pool(processes=device_count) as pool:
         pool.map(partial(run_inference, args=args), image_paths)
 
 if __name__ == '__main__':
-    # Parse arguments
+    mp.set_start_method('spawn', force=True)  # <-- Imposta 'spawn' per CUDA
     parser = argparse.ArgumentParser(description="Batch inference on a folder of images using CUDA.")
     parser.add_argument("-c", "--config", type=str, required=True, help="Path to the config file")
     parser.add_argument("-r", "--weights", type=str, required=True, help="Path to the model weights")
     parser.add_argument("-f", "--folder", type=str, required=True, help="Folder containing images")
     parser.add_argument("-o", "--output", type=str, default="results/", help="Output folder for results")
     args = parser.parse_args()
+    
     main(args)
