@@ -1,5 +1,5 @@
 import argparse
-from downloader import download_all_images
+from rtdetr_pytorch.dataset.downloader import download_all_images
 
 def main():
   parser = argparse.ArgumentParser(
