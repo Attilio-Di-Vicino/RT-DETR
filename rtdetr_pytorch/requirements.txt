@@ -6,3 +6,4 @@ pycocotools
 PyYAML
 scipy
 transformers
+boto3==1.36.11
