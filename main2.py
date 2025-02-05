@@ -3,9 +3,9 @@ import torch
 from PIL import Image, ImageDraw, ImageFont
 import torchvision.transforms as T
 import numpy as np
-from src.core import YAMLConfig
+from rtdetr_pytorch.src.core import YAMLConfig
 from torch.cuda.amp import autocast
-from src.solver import TASKS
+from rtdetr_pytorch.src.solver import TASKS
 from rtdetr_pytorch.tools.infer import postprocess, draw
 
 
