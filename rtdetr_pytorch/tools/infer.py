@@ -98,7 +98,7 @@ def merge_predictions(predictions, slice_coordinates, orig_image_size, slice_wid
         merged_boxes.extend(valid_boxes)
         merged_scores.extend(valid_scores)
     return np.array(merged_labels), np.array(merged_boxes), np.array(merged_scores)
-def draw(images, labels, boxes, scores, thrh = 0.6, path = "../../PascalCOCO/output/"):
+def draw(images, img, labels, boxes, scores, thrh = 0.6, path = "../../PascalCOCO/output/"):
     for i, im in enumerate(images):
         draw = ImageDraw.Draw(im)
         scr = scores[i]
@@ -109,7 +109,7 @@ def draw(images, labels, boxes, scores, thrh = 0.6, path = "../../PascalCOCO/out
             draw.rectangle(list(b), outline='red',)
             draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(),2)}", font=ImageFont.load_default(), fill='blue')
         if path == "":
-            im.save(f'results_{i}.jpg')
+            im.save(f'{img}.jpg')
         else:
             im.save(path)
             
@@ -177,7 +177,7 @@ def main(args, ):
         output = model(im_data, orig_size)
         labels, boxes, scores = output
         
-    draw([im_pil], labels, boxes, scores, 0.6)
+    draw([im_pil], args.im_file, labels, boxes, scores, 0.6)
   
 if __name__ == '__main__':
     import argparse
