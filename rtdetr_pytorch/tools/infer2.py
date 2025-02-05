@@ -111,11 +111,11 @@ def draw(images, labels, boxes, scores, thrh=0.6, path=""):
             draw.rectangle(list(b), outline='red')
             draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(), 2)}", font=ImageFont.load_default(), fill='blue')
         
-        if not os.path.exists("PascalCOCO/output"):
-            os.makedirs("PascalCOCO/output")
+        if not os.path.exists("../../PascalCOCO/output"):
+            os.makedirs("../../PascalCOCO/output")
         
         # Salva le immagini nella cartella PascalCOCO/output
-        im.save(f"PascalCOCO/output/results_{i}.jpg")
+        im.save(f"../../PascalCOCO/output/results_{i}.jpg")
 
 def main(args):
     cfg = YAMLConfig(args.config, resume=args.resume)
