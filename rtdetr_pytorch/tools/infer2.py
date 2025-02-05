@@ -137,7 +137,7 @@ def draw(images, img_file, labels, boxes, scores, thrh=0.6, output_dir="PascalCO
                       font=ImageFont.load_default(), fill='blue')
 
         # Salva le immagini nella cartella PascalCOCO/output
-        output_path = os.path.join(output_dir, f"{img_file}.jpg")
+        output_path = os.path.join(output_dir, f"{img_file[0]}.jpg")
         im.save(output_path)
 
         print(f"Salvato: {output_path}")  # Debug per verificare il percorso
