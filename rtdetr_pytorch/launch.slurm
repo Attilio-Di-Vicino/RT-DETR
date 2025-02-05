@@ -11,9 +11,8 @@
 #SBATCH --job-name=pinns_angio_gpu
 
 module load cuda/12.1 
-source activate ~/rtdetr/bin/activate
-python tools/batch_infer.py \
+source ~/rtdetr/bin/activate
+python tools/infer2.py \
     -c configs/rtdetr/rtdetr_r50vd_6x_coco.yml \
     -r weights/rtdetr_r50vd_6x_coco.pth \
-    -f dataset2/data/validation_5k \
-    -o results/
+    -i PascalCOCO/valid2
