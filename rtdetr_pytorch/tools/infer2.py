@@ -183,7 +183,7 @@ def main(args):
             output = model(im_data, orig_size)
             labels, boxes, scores = output
             
-        # Salvataggio dei risultati per ogni immagine nella cartella PascalCOCO/output
+        print("Saving...")
         draw([im_pil], labels, boxes, scores, 0.6)
   
 if __name__ == '__main__':
