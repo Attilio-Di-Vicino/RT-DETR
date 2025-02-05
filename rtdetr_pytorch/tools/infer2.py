@@ -6,9 +6,12 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import os 
 import sys 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 import argparse
-from src.core import YAMLConfig
+import src.misc.dist as dist 
+from src.core import YAMLConfig 
 from src.solver import TASKS
+import numpy as np
 
 def postprocess(labels, boxes, scores, iou_threshold=0.55):
     def calculate_iou(box1, box2):
