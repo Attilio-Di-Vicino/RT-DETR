@@ -116,6 +116,7 @@ def draw(images, labels, boxes, scores, thrh=0.6, path=""):
         
         # Salva le immagini nella cartella PascalCOCO/output
         im.save(f"../../PascalCOCO/output/results_{i}.jpg")
+        im.save(f"results_{i}.jpg")
 
 def main(args):
     cfg = YAMLConfig(args.config, resume=args.resume)
