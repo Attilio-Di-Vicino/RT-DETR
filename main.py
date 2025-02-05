@@ -36,7 +36,9 @@ def main():
         
         # Esegui il modello
         with torch.no_grad():
-            outputs = model(input_tensor, orig_target_sizes=[(image.height, image.width)])
+            orig_target_sizes = torch.tensor([(image.height, image.width)], dtype=torch.float32)
+            outputs = model(input_tensor, orig_target_sizes=orig_target_sizes)
+            # outputs = model(input_tensor, orig_target_sizes=[(image.height, image.width)])
         
         # Visualizza i risultati con bounding box
         # fig, ax = plt.subplots(1, figsize=(8, 6))

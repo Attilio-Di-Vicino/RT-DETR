@@ -10,6 +10,7 @@
 #SBATCH --mem=123000        # memory per node out of 494000MB (481GB)
 #SBATCH --job-name=rtdetr
 
-module load cuda/12.1 
-source activate ~/rtdetr/bin/activate
+module load cuda/12.1
+module load python
+source ~/rtdetr/bin/activate
 python main.py
