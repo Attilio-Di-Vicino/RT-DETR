@@ -19,7 +19,7 @@ def main():
     ])
 
     # Percorso della cartella di validazione
-    image_dir = "PascalCOCO/valid"
+    image_dir = "PascalCOCO/valid2"
     output_dir = "PascalCOCO/output"  # Cartella per salvare i risultati
     os.makedirs(output_dir, exist_ok=True)
 
@@ -63,7 +63,7 @@ def main():
         plt.savefig(output_path, bbox_inches="tight")
         plt.close()
 
-        print(f"Processata: {image_file} → {output_path}")
+        print(f"Processata: {image_file} -> {output_path}")
 
     print("🎯 Inferenza completata su tutte le immagini!")
 
