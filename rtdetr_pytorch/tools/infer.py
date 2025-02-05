@@ -98,7 +98,7 @@ def merge_predictions(predictions, slice_coordinates, orig_image_size, slice_wid
         merged_boxes.extend(valid_boxes)
         merged_scores.extend(valid_scores)
     return np.array(merged_labels), np.array(merged_boxes), np.array(merged_scores)
-def draw(images, labels, boxes, scores, thrh = 0.6, path = ""):
+def draw(images, labels, boxes, scores, thrh = 0.6, path = "../../PascalCOCO/output/"):
     for i, im in enumerate(images):
         draw = ImageDraw.Draw(im)
         scr = scores[i]
