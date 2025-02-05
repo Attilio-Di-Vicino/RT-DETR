@@ -6,71 +6,7 @@ import numpy as np
 from src.core import YAMLConfig
 from torch.cuda.amp import autocast
 from src.solver import TASKS
-
-def postprocess(labels, boxes, scores, iou_threshold=0.55):
-    def calculate_iou(box1, box2):
-        x1, y1, x2, y2 = box1
-        x3, y3, x4, y4 = box2
-        xi1 = max(x1, x3)
-        yi1 = max(y1, y3)
-        xi2 = min(x2, x4)
-        yi2 = min(y2, y4)
-        inter_width = max(0, xi2 - xi1)
-        inter_height = max(0, yi2 - yi1)
-        inter_area = inter_width * inter_height
-        box1_area = (x2 - x1) * (y2 - y1)
-        box2_area = (x4 - x3) * (y4 - y3)
-        union_area = box1_area + box2_area - inter_area
-        iou = inter_area / union_area if union_area != 0 else 0
-        return iou
-    merged_labels = []
-    merged_boxes = []
-    merged_scores = []
-    used_indices = set()
-    for i in range(len(boxes)):
-        if i in used_indices:
-            continue
-        current_box = boxes[i]
-        current_label = labels[i]
-        current_score = scores[i]
-        boxes_to_merge = [current_box]
-        scores_to_merge = [current_score]
-        used_indices.add(i)
-        for j in range(i + 1, len(boxes)):
-            if j in used_indices:
-                continue
-            if labels[j] != current_label:
-                continue  
-            other_box = boxes[j]
-            iou = calculate_iou(current_box, other_box)
-            if iou >= iou_threshold:
-                boxes_to_merge.append(other_box.tolist())  
-                scores_to_merge.append(scores[j])
-                used_indices.add(j)
-        xs = np.concatenate([[box[0], box[2]] for box in boxes_to_merge])
-        ys = np.concatenate([[box[1], box[3]] for box in boxes_to_merge])
-        merged_box = [np.min(xs), np.min(ys), np.max(xs), np.max(ys)]
-        merged_score = max(scores_to_merge)
-        merged_boxes.append(merged_box)
-        merged_labels.append(current_label)
-        merged_scores.append(merged_score)
-    return [np.array(merged_labels)], [np.array(merged_boxes)], [np.array(merged_scores)]
-
-
-def draw(images, labels, boxes, scores, thrh=0.6, output_dir=""):
-    for i, im in enumerate(images):
-        draw = ImageDraw.Draw(im)
-        scr = scores[i]
-        lab = labels[i][scr > thrh]
-        box = boxes[i][scr > thrh]
-        scrs = scores[i][scr > thrh]
-        for j,b in enumerate(box):
-            draw.rectangle(list(b), outline='red', width=3)
-            draw.text((b[0], b[1]), text=f"label: {lab[j]} {round(scrs[j], 2)}", font=ImageFont.load_default(), fill='blue')
-        # Salva l'immagine modificata
-        output_path = os.path.join(output_dir, f"result_{i}.jpg")
-        im.save(output_path)
-        print(f"Immagine salvata in {output_path}")
+from rtdetr_pytorch.tools.infer import postprocess, draw
 
 
 def main(args):
