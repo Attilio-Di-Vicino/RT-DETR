@@ -107,10 +107,12 @@ def draw(images, labels, boxes, scores, thrh=0.6, path=""):
         for j, b in enumerate(box):
             draw.rectangle(list(b), outline='red')
             draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(), 2)}", font=ImageFont.load_default(), fill='blue')
-        if path == "":
-            im.save(f'results_{i}.jpg')
-        else:
-            im.save(path)
+        
+        if not os.path.exists("PascalCOCO/output"):
+            os.makedirs("PascalCOCO/output")
+        
+        # Salva le immagini nella cartella PascalCOCO/output
+        im.save(f"PascalCOCO/output/results_{i}.jpg")
 
 def main(args):
     cfg = YAMLConfig(args.config, resume=args.resume)
@@ -178,8 +180,8 @@ def main(args):
             output = model(im_data, orig_size)
             labels, boxes, scores = output
             
-        # Salvataggio dei risultati per ogni immagine
-        draw([im_pil], labels, boxes, scores, 0.6, path=f"output/{img_file}")
+        # Salvataggio dei risultati per ogni immagine nella cartella PascalCOCO/output
+        draw([im_pil], labels, boxes, scores, 0.6)
   
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
