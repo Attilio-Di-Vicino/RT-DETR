@@ -117,7 +117,7 @@ def merge_predictions(predictions, slice_coordinates, orig_image_size, slice_wid
 #         # Salva le immagini nella cartella PascalCOCO/output
 #         im.save(f"../../PascalCOCO/output/results_{i}.jpg")
 #         im.save(f"results_{i}.jpg")
-def draw(images, labels, boxes, scores, thrh=0.6, output_dir="PascalCOCO/output"):
+def draw(images, img_file, labels, boxes, scores, thrh=0.6, output_dir="PascalCOCO/output"):
     # Converti il percorso in assoluto rispetto alla cartella principale
     output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../PascalCOCO/output'))
     
@@ -137,7 +137,7 @@ def draw(images, labels, boxes, scores, thrh=0.6, output_dir="PascalCOCO/output"
                       font=ImageFont.load_default(), fill='blue')
 
         # Salva le immagini nella cartella PascalCOCO/output
-        output_path = os.path.join(output_dir, f"{images}.jpg")
+        output_path = os.path.join(output_dir, f"{img_file}.jpg")
         im.save(output_path)
 
         print(f"Salvato: {output_path}")  # Debug per verificare il percorso
@@ -210,7 +210,7 @@ def main(args):
             labels, boxes, scores = output
             
         print("Saving...")
-        draw([im_pil], labels, boxes, scores, 0.6)
+        draw([im_pil], [img_file], labels, boxes, scores, 0.6)
   
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
