@@ -100,23 +100,48 @@ def merge_predictions(predictions, slice_coordinates, orig_image_size, slice_wid
         merged_scores.extend(valid_scores)
     return np.array(merged_labels), np.array(merged_boxes), np.array(merged_scores)
 
-def draw(images, labels, boxes, scores, thrh=0.6, path=""):
+# def draw(images, labels, boxes, scores, thrh=0.6, path=""):
+#     for i, im in enumerate(images):
+#         draw = ImageDraw.Draw(im)
+#         scr = scores[i]
+#         lab = labels[i][scr > thrh]
+#         box = boxes[i][scr > thrh]
+#         scrs = scores[i][scr > thrh]
+#         for j, b in enumerate(box):
+#             draw.rectangle(list(b), outline='red')
+#             draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(), 2)}", font=ImageFont.load_default(), fill='blue')
+        
+#         if not os.path.exists("../../PascalCOCO/output"):
+#             os.makedirs("../../PascalCOCO/output")
+        
+#         # Salva le immagini nella cartella PascalCOCO/output
+#         im.save(f"../../PascalCOCO/output/results_{i}.jpg")
+#         im.save(f"results_{i}.jpg")
+def draw(images, labels, boxes, scores, thrh=0.6, output_dir="PascalCOCO/output"):
+    # Converti il percorso in assoluto rispetto alla cartella principale
+    output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../PascalCOCO/output'))
+    
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
     for i, im in enumerate(images):
         draw = ImageDraw.Draw(im)
         scr = scores[i]
         lab = labels[i][scr > thrh]
         box = boxes[i][scr > thrh]
         scrs = scores[i][scr > thrh]
+
         for j, b in enumerate(box):
             draw.rectangle(list(b), outline='red')
-            draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(), 2)}", font=ImageFont.load_default(), fill='blue')
-        
-        if not os.path.exists("../../PascalCOCO/output"):
-            os.makedirs("../../PascalCOCO/output")
-        
+            draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(), 2)}", 
+                      font=ImageFont.load_default(), fill='blue')
+
         # Salva le immagini nella cartella PascalCOCO/output
-        im.save(f"../../PascalCOCO/output/results_{i}.jpg")
-        im.save(f"results_{i}.jpg")
+        output_path = os.path.join(output_dir, f"results_{i}.jpg")
+        im.save(output_path)
+
+        print(f"Salvato: {output_path}")  # Debug per verificare il percorso
+
 
 def main(args):
     cfg = YAMLConfig(args.config, resume=args.resume)
