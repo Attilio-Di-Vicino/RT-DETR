@@ -9,7 +9,7 @@ from hubconf import rtdetr_r50vd
 
 def main():
     model = rtdetr_r50vd()
-    model.eval()
+    # model.eval()
     
     # Trasformazione per il preprocessing delle immagini
     transform = transforms.Compose([
@@ -50,7 +50,7 @@ def main():
             scores = outputs["scores"].cpu().numpy()  # Confidenza
 
             for box, label, score in zip(boxes, labels, scores):
-                if score > 0.5:  # Filtra i risultati con bassa confidenza
+                # if score > 0.5:  # Filtra i risultati con bassa confidenza
                     x_min, y_min, x_max, y_max = box
                     rect = patches.Rectangle((x_min, y_min), x_max - x_min, y_max - y_min,
                                             linewidth=2, edgecolor="red", facecolor="none")
@@ -65,7 +65,7 @@ def main():
 
         print(f"Processata: {image_file} -> {output_path}")
 
-    print("🎯 Inferenza completata su tutte le immagini!")
+    print("Inferenza completata su tutte le immagini!")
 
 if __name__ == "__main__":
     main()
