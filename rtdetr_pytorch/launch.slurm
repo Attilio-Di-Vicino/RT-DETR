@@ -10,11 +10,13 @@
 #SBATCH --mem=123000          # memory per node out of 494000MB (481GB)
 #SBATCH --job-name=pinns_angio_gpu
 
+DATASET=$1
+
 module load cuda/12.1 
 source ~/rtdetr/bin/activate
 python tools/infer3.py \
     -c configs/rtdetr/rtdetr_r50vd_6x_coco.yml \
     -r weights/rtdetr_r50vd_6x_coco.pth \
-    -i ../PascalCOCO/valid3 \
+    -i ../PascalCOCO/$DATASET \
     -o ../PascalCOCO/
     

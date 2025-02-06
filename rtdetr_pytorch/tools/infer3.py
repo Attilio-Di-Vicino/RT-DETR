@@ -143,6 +143,7 @@ def main(args, ):
     """main
     """
     cfg = YAMLConfig(args.config, resume=args.resume)
+    print(f"[INFO] Dataset: {args.input}")
     if args.resume:
         checkpoint = torch.load(args.resume, map_location='cpu') 
         if 'ema' in checkpoint:
@@ -224,29 +225,6 @@ def main(args, ):
         draw([im_pil], img_file, predictions_path, labels, boxes, scores, 0.6, image_folder)
         end_time = time.time()
         elapsed_time = end_time - start_time
-
-        # if len(labels) > 0 and len(boxes) > 0 and len(scores) > 0:
-        #     with open(predictions_path, "w") as f:
-        #         for label, box, score in zip(labels, boxes, scores):
-        #             # Gestisce il caso in cui `score` sia un tensore con più elementi
-        #             if isinstance(score, torch.Tensor):
-        #                 if score.numel() == 1:
-        #                     # Se `score` è un tensore scalare (con un solo valore)
-        #                     score = score.item()  # Converte il tensore scalare in un numero
-        #                 else:
-        #                     # Se `score` è un tensore con più elementi, lo converte in una lista
-        #                     score = score.tolist()  # Converte in lista
-        #             # Gestisce il caso in cui `box` sia un tensore
-        #             box = tuple(box.tolist()) if isinstance(box, torch.Tensor) else box
-
-        #             # Scrive le predizioni nel file
-        #             f.write(f"Label: {label}, Box: {box}, Score: {score}\n")
-                
-        #         # Aggiungi il tempo di esecuzione
-        #         f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
-        # else:
-        #     with open(predictions_path, "w") as f:
-        #         f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
         with open(predictions_path, "a") as f:
                 f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
             
