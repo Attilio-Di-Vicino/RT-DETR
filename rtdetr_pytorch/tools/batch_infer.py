@@ -197,9 +197,10 @@ from pathlib import Path
 from functools import partial
 import subprocess
 
-def run_inference(image_path, args):
+def run_inference(params):
     """Esegue inferenza su un singolo frame usando CUDA."""
-    print(f"Processing {image_path} on GPU ...")
+    image_path, args, gpu_id = params  # Estrarre i parametri passati come tupla
+    print(f"Processing {image_path} on GPU {gpu_id}...")
 
     output_path = image_path.replace("temp_frames", "processed_frames")
     
@@ -212,7 +213,7 @@ def run_inference(image_path, args):
     ]
 
     env = os.environ.copy()
-    # env["CUDA_VISIBLE_DEVICES"] = str(gpu_id)  # Assegna la GPU corretta
+    env["CUDA_VISIBLE_DEVICES"] = str(gpu_id)  # Assegna la GPU corretta
 
     subprocess.run(command, env=env)
 
