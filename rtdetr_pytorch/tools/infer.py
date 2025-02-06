@@ -99,7 +99,9 @@ def merge_predictions(predictions, slice_coordinates, orig_image_size, slice_wid
         merged_scores.extend(valid_scores)
     return np.array(merged_labels), np.array(merged_boxes), np.array(merged_scores)
 def draw(images, img, labels, boxes, scores, thrh = 0.6, path = ""):
-    output_dir = "../../PascalCOCO/output/video/"
+    # output_dir = "../../PascalCOCO/output/video/"
+    output_dir = "../../PascalCOCO/output/video/temp_frames/"
+    img_name = img.replace(".jpg", "")
     os.makedirs(output_dir, exist_ok=True)
     for i, im in enumerate(images):
         draw = ImageDraw.Draw(im)
@@ -112,7 +114,7 @@ def draw(images, img, labels, boxes, scores, thrh = 0.6, path = ""):
             draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(),2)}", font=ImageFont.load_default(), fill='blue')
         # if path == "":
         # im.save(f'../../PascalCOCO/output/{img}.jpg')
-        save_path = os.path.join(output_dir, f"{img}.jpg")
+        save_path = os.path.join(output_dir, f"{img_name}.jpg")
         im.save(save_path)
         # else:
         #     im.save(path)
