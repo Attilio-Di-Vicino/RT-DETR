@@ -209,7 +209,7 @@ def run_inference(params):
         "-c", args.config,
         "-r", args.weights,
         "-f", str(image_path),
-        "-o", str(output_path)  # Specifica l'output dell'inferenza
+        # "-o", str(output_path)  # Specifica l'output dell'inferenza
     ]
 
     env = os.environ.copy()

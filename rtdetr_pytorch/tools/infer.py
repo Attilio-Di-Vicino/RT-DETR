@@ -108,10 +108,10 @@ def draw(images, img, labels, boxes, scores, thrh = 0.6, path = "../../PascalCOC
         for j,b in enumerate(box):
             draw.rectangle(list(b), outline='red',)
             draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(),2)}", font=ImageFont.load_default(), fill='blue')
-        if path == "":
-            im.save(f'{img}.jpg')
-        else:
-            im.save(path)
+        # if path == "":
+        im.save(f'../../PascalCOCO/output/{img}.jpg')
+        # else:
+        #     im.save(path)
             
 def main(args, ):
     """main
