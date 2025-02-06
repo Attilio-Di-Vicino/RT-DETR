@@ -12,6 +12,7 @@ import src.misc.dist as dist
 from src.core import YAMLConfig 
 from src.solver import TASKS
 import numpy as np
+import time
 
 def postprocess(labels, boxes, scores, iou_threshold=0.55):
     def calculate_iou(box1, box2):
@@ -98,7 +99,7 @@ def merge_predictions(predictions, slice_coordinates, orig_image_size, slice_wid
         merged_boxes.extend(valid_boxes)
         merged_scores.extend(valid_scores)
     return np.array(merged_labels), np.array(merged_boxes), np.array(merged_scores)
-def draw(images, labels, boxes, scores, thrh = 0.6, path = ""):
+def draw(images, file_name, labels, boxes, scores, thrh = 0.6, path = ""):
     for i, im in enumerate(images):
         draw = ImageDraw.Draw(im)
         scr = scores[i]
@@ -109,9 +110,10 @@ def draw(images, labels, boxes, scores, thrh = 0.6, path = ""):
             draw.rectangle(list(b), outline='red',)
             draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(),2)}", font=ImageFont.load_default(), fill='blue')
         if path == "":
-            im.save(f'r.jpg')
+            im.save(f"{file_name}.jpg")  
         else:
-            im.save(path)
+            os.makedirs(path, exist_ok=True)  
+            im.save(os.path.join(path, f"{file_name}.jpg"))
             
 def main(args, ):
     """main
@@ -140,11 +142,15 @@ def main(args, ):
     
     model = Model().to(args.device)
 
-    image_files = [f for f in os.listdir(args.im_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+    image_files = [f for f in os.listdir(args.input) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+    
+    image_folder = os.path.join(args.output, "images")
+    os.makedirs(image_folder, exist_ok=True)
 
     for img_file in image_files:
+        start_time = time.time()
         print(f"[INFO] img_file: {img_file}")
-        im_pil = Image.open(os.path.join(args.im_folder, img_file)).convert('RGB')
+        im_pil = Image.open(os.path.join(args.input, img_file)).convert('RGB')
         w, h = im_pil.size
         orig_size = torch.tensor([w, h])[None].to(args.device)
         
@@ -181,16 +187,31 @@ def main(args, ):
         else:
             output = model(im_data, orig_size)
             labels, boxes, scores = output
+
+        # Salvataggio delle predizioni in un file di testo
+        predictions_folder = os.path.join(args.output, "predictions")
+        os.makedirs(image_folder, exist_ok=True)
+
+        predictions_path = os.path.join(predictions_folder, f"{img_file}.txt")
+
+        file_name = img_file.removesuffix(".jpg")
+        draw([im_pil], file_name, labels, boxes, scores, 0.6)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+
+        with open(predictions_path, "w") as f:
+            for label, box, score in zip(labels, boxes, scores):
+                f.write(f"Label: {label}, Box: {box}, Score: {score:.2f}\n")
             
-        draw([im_pil], labels, boxes, scores, 0.6)
+            f.write(f"\nTempo di esecuzione: {elapsed_time:.4f} secondi\n")
   
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--config', type=str, )
     parser.add_argument('-r', '--resume', type=str, )
-    parser.add_argument('-i', '--im-folder', type=str, required=True, help="Path to the folder containing images")
-    parser.add_argument('-o', '--output', type=str, required=False, help="Path to the folder containing outputs")
+    parser.add_argument('-i', '--input', type=str, required=True, help="Path to the folder containing images")
+    parser.add_argument('-o', '--output', type=str, required=True, help="Path to the folder containing outputs")
     parser.add_argument('-s', '--sliced', type=bool, default=False)
     parser.add_argument('-d', '--device', type=str, default='cpu')
     parser.add_argument('-nc', '--numberofboxes', type=int, default=25)
