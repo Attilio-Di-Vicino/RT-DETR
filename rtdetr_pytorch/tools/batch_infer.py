@@ -279,7 +279,12 @@ def main(args):
 
     # Parallelizza il processo su più GPU
     with mp.Pool(processes=device_count) as pool:
-        pool.map(partial(run_inference, args=args), enumerate(frame_paths))
+        # pool.map(partial(run_inference, args=args), enumerate(frame_paths))
+        params = [(frame_path, args, i % device_count) for i, frame_path in enumerate(frame_paths)]
+        pool.map(run_inference, params)
+
+
+
 
     print("Inferenza completata!")
 
