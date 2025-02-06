@@ -190,7 +190,7 @@ def main(args, ):
 
         # Salvataggio delle predizioni in un file di testo
         predictions_folder = os.path.join(args.output, "predictions")
-        os.makedirs(image_folder, exist_ok=True)
+        os.makedirs(predictions_folder, exist_ok=True)
 
         predictions_path = os.path.join(predictions_folder, f"{img_file}.txt")
 
