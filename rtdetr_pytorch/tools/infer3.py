@@ -190,7 +190,7 @@ if __name__ == '__main__':
     parser.add_argument('-c', '--config', type=str, )
     parser.add_argument('-r', '--resume', type=str, )
     parser.add_argument('-i', '--im-folder', type=str, required=True, help="Path to the folder containing images")
-    parser.add_argument('-o', '--output', type=str, required=True, help="Path to the folder containing outputs")
+    parser.add_argument('-o', '--output', type=str, required=False, help="Path to the folder containing outputs")
     parser.add_argument('-s', '--sliced', type=bool, default=False)
     parser.add_argument('-d', '--device', type=str, default='cpu')
     parser.add_argument('-nc', '--numberofboxes', type=int, default=25)
