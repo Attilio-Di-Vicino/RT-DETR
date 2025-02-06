@@ -199,11 +199,12 @@ def main(args, ):
         end_time = time.time()
         elapsed_time = end_time - start_time
 
+        score = score.item() 
+        box = tuple(box.tolist())
         with open(predictions_path, "w") as f:
             for label, box, score in zip(labels, boxes, scores):
                 f.write(f"Label: {label}, Box: {box}, Score: {score:.2f}\n")
-            
-            f.write(f"\nTempo di esecuzione: {elapsed_time:.4f} secondi\n")
+            f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
   
 if __name__ == '__main__':
     import argparse
