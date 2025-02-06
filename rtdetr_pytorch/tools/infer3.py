@@ -99,7 +99,7 @@ def merge_predictions(predictions, slice_coordinates, orig_image_size, slice_wid
         merged_boxes.extend(valid_boxes)
         merged_scores.extend(valid_scores)
     return np.array(merged_labels), np.array(merged_boxes), np.array(merged_scores)
-def draw(images, file_name, labels, boxes, scores, thrh = 0.6, path = ""):
+def draw(images, file_name, predictions_path, labels, boxes, scores, thrh = 0.6, path = ""):
     for i, im in enumerate(images):
         draw = ImageDraw.Draw(im)
         scr = scores[i]
@@ -109,6 +109,9 @@ def draw(images, file_name, labels, boxes, scores, thrh = 0.6, path = ""):
         for j,b in enumerate(box):
             draw.rectangle(list(b), outline='red',)
             draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(),2)}", font=ImageFont.load_default(), fill='blue')
+            with open(predictions_path, "w") as f:
+                f.write(f"label: {lab[j].item()} {round(scrs[j].item(),2)}, bbox: {list(b)}")
+
         if path == "":
             im.save(f"{file_name}.jpg")  
         else:
@@ -197,36 +200,39 @@ def main(args, ):
         predictions_path = os.path.join(predictions_folder, f"{img_file}.txt")
 
         # file_name = img_file.removesuffix(".jpg")
-        draw([im_pil], img_file, labels, boxes, scores, 0.6, image_folder)
+        draw([im_pil], img_file, predictions_path, labels, boxes, scores, 0.6, image_folder)
         end_time = time.time()
         elapsed_time = end_time - start_time
 
-        if len(labels) > 0 and len(boxes) > 0 and len(scores) > 0:
-            with open(predictions_path, "w") as f:
-                for label, box, score in zip(labels, boxes, scores):
-                    # Gestisce il caso in cui `score` sia un tensore con più elementi
-                    if isinstance(score, torch.Tensor):
-                        if score.numel() == 1:
-                            # Se `score` è un tensore scalare (con un solo valore)
-                            score = score.item()  # Converte il tensore scalare in un numero
-                        else:
-                            # Se `score` è un tensore con più elementi, lo converte in una lista
-                            score = score.tolist()  # Converte in lista
-                    # Gestisce il caso in cui `box` sia un tensore
-                    box = tuple(box.tolist()) if isinstance(box, torch.Tensor) else box
+        # if len(labels) > 0 and len(boxes) > 0 and len(scores) > 0:
+        #     with open(predictions_path, "w") as f:
+        #         for label, box, score in zip(labels, boxes, scores):
+        #             # Gestisce il caso in cui `score` sia un tensore con più elementi
+        #             if isinstance(score, torch.Tensor):
+        #                 if score.numel() == 1:
+        #                     # Se `score` è un tensore scalare (con un solo valore)
+        #                     score = score.item()  # Converte il tensore scalare in un numero
+        #                 else:
+        #                     # Se `score` è un tensore con più elementi, lo converte in una lista
+        #                     score = score.tolist()  # Converte in lista
+        #             # Gestisce il caso in cui `box` sia un tensore
+        #             box = tuple(box.tolist()) if isinstance(box, torch.Tensor) else box
 
-                    # Scrive le predizioni nel file
-                    f.write(f"Label: {label}, Box: {box}, Score: {score}\n")
+        #             # Scrive le predizioni nel file
+        #             f.write(f"Label: {label}, Box: {box}, Score: {score}\n")
                 
-                # Aggiungi il tempo di esecuzione
-                f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
-        else:
-            with open(predictions_path, "w") as f:
+        #         # Aggiungi il tempo di esecuzione
+        #         f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
+        # else:
+        #     with open(predictions_path, "w") as f:
+        #         f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
+        with open(predictions_path, "w") as f:
                 f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
             
-            print("Errore: labels, boxes o scores sono vuoti!")
+        print("Errore: labels, boxes o scores sono vuoti!")
         execution_time.append(elapsed_time)
     
+    total_time = sum(execution_time)
     average_time = sum(execution_time) / len(execution_time) if execution_time else 0
     info_path = "info.txt"
     gpu_info = "No GPU available"
@@ -240,6 +246,7 @@ def main(args, ):
     # Scrivere i dati nel file info.txt
     info_path = "info.txt"
     with open(info_path, "w") as f:
+        f.write(f"Total time: {total_time:.4f} sec\n")  # Scrivi il tempo medio
         f.write(f"Average execution time: {average_time:.4f} sec\n")  # Scrivi il tempo medio
         f.write(f"Total images processed: {len(execution_time)}\n")  # Scrivi il numero di immagini processate
         f.write(f"{gpu_info}\n")  # Scrivi le informazioni sulla GPU
