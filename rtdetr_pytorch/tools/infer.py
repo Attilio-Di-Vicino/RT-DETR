@@ -139,6 +139,8 @@ def main(args, ):
             return outputs
     
     model = Model().to(args.device)
+
+    
     im_pil = Image.open(args.im_file).convert('RGB')
     w, h = im_pil.size
     orig_size = torch.tensor([w, h])[None].to(args.device)
