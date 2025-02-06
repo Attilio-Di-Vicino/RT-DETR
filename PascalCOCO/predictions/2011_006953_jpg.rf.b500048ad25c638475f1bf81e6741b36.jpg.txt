@@ -1,0 +1,12 @@
+label: 0 0.93, bbox: [tensor(141.4000, grad_fn=<UnbindBackward0>), tensor(14.9821, grad_fn=<UnbindBackward0>), tensor(217.2622, grad_fn=<UnbindBackward0>), tensor(172.9777, grad_fn=<UnbindBackward0>)]
+label: 0 0.92, bbox: [tensor(330.8374, grad_fn=<UnbindBackward0>), tensor(9.1199, grad_fn=<UnbindBackward0>), tensor(388.4414, grad_fn=<UnbindBackward0>), tensor(178.8251, grad_fn=<UnbindBackward0>)]
+label: 0 0.92, bbox: [tensor(376.2086, grad_fn=<UnbindBackward0>), tensor(7.7028, grad_fn=<UnbindBackward0>), tensor(451.0862, grad_fn=<UnbindBackward0>), tensor(196.4799, grad_fn=<UnbindBackward0>)]
+label: 0 0.89, bbox: [tensor(71.5314, grad_fn=<UnbindBackward0>), tensor(1.4651, grad_fn=<UnbindBackward0>), tensor(117.8299, grad_fn=<UnbindBackward0>), tensor(157.5068, grad_fn=<UnbindBackward0>)]
+label: 0 0.87, bbox: [tensor(418.2768, grad_fn=<UnbindBackward0>), tensor(28.8759, grad_fn=<UnbindBackward0>), tensor(478.2244, grad_fn=<UnbindBackward0>), tensor(214.1627, grad_fn=<UnbindBackward0>)]
+label: 0 0.82, bbox: [tensor(0.0466, grad_fn=<UnbindBackward0>), tensor(0.0065, grad_fn=<UnbindBackward0>), tensor(46.3243, grad_fn=<UnbindBackward0>), tensor(185.8170, grad_fn=<UnbindBackward0>)]
+label: 0 0.81, bbox: [tensor(285.3834, grad_fn=<UnbindBackward0>), tensor(22.4384, grad_fn=<UnbindBackward0>), tensor(342.3789, grad_fn=<UnbindBackward0>), tensor(162.6994, grad_fn=<UnbindBackward0>)]
+label: 0 0.77, bbox: [tensor(460.6219, grad_fn=<UnbindBackward0>), tensor(33.9350, grad_fn=<UnbindBackward0>), tensor(499.9391, grad_fn=<UnbindBackward0>), tensor(203.5386, grad_fn=<UnbindBackward0>)]
+label: 0 0.69, bbox: [tensor(44.0742, grad_fn=<UnbindBackward0>), tensor(8.5995, grad_fn=<UnbindBackward0>), tensor(77.2891, grad_fn=<UnbindBackward0>), tensor(150.7755, grad_fn=<UnbindBackward0>)]
+label: 0 0.67, bbox: [tensor(211.6980, grad_fn=<UnbindBackward0>), tensor(22.6417, grad_fn=<UnbindBackward0>), tensor(246.1631, grad_fn=<UnbindBackward0>), tensor(155.9881, grad_fn=<UnbindBackward0>)]
+
+Execution time: 0.4975 sec

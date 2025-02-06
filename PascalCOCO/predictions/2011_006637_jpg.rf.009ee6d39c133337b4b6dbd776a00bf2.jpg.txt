@@ -1,0 +1,5 @@
+label: 17 0.89, bbox: [tensor(62.2337, grad_fn=<UnbindBackward0>), tensor(214.7542, grad_fn=<UnbindBackward0>), tensor(106.2845, grad_fn=<UnbindBackward0>), tensor(340.6896, grad_fn=<UnbindBackward0>)]
+label: 0 0.87, bbox: [tensor(56.6979, grad_fn=<UnbindBackward0>), tensor(165.7532, grad_fn=<UnbindBackward0>), tensor(109.0519, grad_fn=<UnbindBackward0>), tensor(257.9648, grad_fn=<UnbindBackward0>)]
+label: 17 0.76, bbox: [tensor(-0.0998, grad_fn=<UnbindBackward0>), tensor(319.9920, grad_fn=<UnbindBackward0>), tensor(124.6019, grad_fn=<UnbindBackward0>), tensor(499.7900, grad_fn=<UnbindBackward0>)]
+
+Execution time: 0.5010 sec

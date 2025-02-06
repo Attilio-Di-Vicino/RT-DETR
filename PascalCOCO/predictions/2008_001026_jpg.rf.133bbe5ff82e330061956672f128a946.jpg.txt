@@ -1,3 +1,3 @@
 label: 0 0.94, bbox: [tensor(0.0560, grad_fn=<UnbindBackward0>), tensor(29.9481, grad_fn=<UnbindBackward0>), tensor(323.1109, grad_fn=<UnbindBackward0>), tensor(500.3551, grad_fn=<UnbindBackward0>)]
 
-Execution time: 0.4219 sec
+Execution time: 3.2500 sec

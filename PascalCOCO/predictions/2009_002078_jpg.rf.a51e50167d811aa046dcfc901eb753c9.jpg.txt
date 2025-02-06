@@ -1,0 +1,12 @@
+label: 56 0.96, bbox: [tensor(97.6171, grad_fn=<UnbindBackward0>), tensor(128.2455, grad_fn=<UnbindBackward0>), tensor(250.8457, grad_fn=<UnbindBackward0>), tensor(339.4358, grad_fn=<UnbindBackward0>)]
+label: 56 0.93, bbox: [tensor(297.5383, grad_fn=<UnbindBackward0>), tensor(86.8718, grad_fn=<UnbindBackward0>), tensor(429.2104, grad_fn=<UnbindBackward0>), tensor(305.6564, grad_fn=<UnbindBackward0>)]
+label: 56 0.92, bbox: [tensor(33.3188, grad_fn=<UnbindBackward0>), tensor(95.0198, grad_fn=<UnbindBackward0>), tensor(113.8063, grad_fn=<UnbindBackward0>), tensor(253.1251, grad_fn=<UnbindBackward0>)]
+label: 56 0.91, bbox: [tensor(167.9643, grad_fn=<UnbindBackward0>), tensor(63.4835, grad_fn=<UnbindBackward0>), tensor(212.1758, grad_fn=<UnbindBackward0>), tensor(105.4067, grad_fn=<UnbindBackward0>)]
+label: 56 0.9, bbox: [tensor(268.7690, grad_fn=<UnbindBackward0>), tensor(67.1798, grad_fn=<UnbindBackward0>), tensor(317.8761, grad_fn=<UnbindBackward0>), tensor(102.9363, grad_fn=<UnbindBackward0>)]
+label: 56 0.83, bbox: [tensor(129.5547, grad_fn=<UnbindBackward0>), tensor(77.8916, grad_fn=<UnbindBackward0>), tensor(167.0967, grad_fn=<UnbindBackward0>), tensor(116.1998, grad_fn=<UnbindBackward0>)]
+label: 56 0.79, bbox: [tensor(93.4901, grad_fn=<UnbindBackward0>), tensor(85.6794, grad_fn=<UnbindBackward0>), tensor(139.0138, grad_fn=<UnbindBackward0>), tensor(129.3856, grad_fn=<UnbindBackward0>)]
+label: 56 0.79, bbox: [tensor(384.2012, grad_fn=<UnbindBackward0>), tensor(64.7244, grad_fn=<UnbindBackward0>), tensor(438.4442, grad_fn=<UnbindBackward0>), tensor(174.0169, grad_fn=<UnbindBackward0>)]
+label: 60 0.78, bbox: [tensor(77.5430, grad_fn=<UnbindBackward0>), tensor(92.4238, grad_fn=<UnbindBackward0>), tensor(386.9295, grad_fn=<UnbindBackward0>), tensor(275.7573, grad_fn=<UnbindBackward0>)]
+label: 56 0.62, bbox: [tensor(87.0810, grad_fn=<UnbindBackward0>), tensor(92.8587, grad_fn=<UnbindBackward0>), tensor(110.9387, grad_fn=<UnbindBackward0>), tensor(132.1301, grad_fn=<UnbindBackward0>)]
+
+Execution time: 0.4792 sec

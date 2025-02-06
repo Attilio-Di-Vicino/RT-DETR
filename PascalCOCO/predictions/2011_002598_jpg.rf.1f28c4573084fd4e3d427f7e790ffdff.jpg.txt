@@ -1,0 +1,12 @@
+label: 0 0.93, bbox: [tensor(224.2283, grad_fn=<UnbindBackward0>), tensor(50.1881, grad_fn=<UnbindBackward0>), tensor(337.3319, grad_fn=<UnbindBackward0>), tensor(318.3989, grad_fn=<UnbindBackward0>)]
+label: 3 0.93, bbox: [tensor(-0.0201, grad_fn=<UnbindBackward0>), tensor(86.4914, grad_fn=<UnbindBackward0>), tensor(401.4378, grad_fn=<UnbindBackward0>), tensor(320.1511, grad_fn=<UnbindBackward0>)]
+label: 0 0.92, bbox: [tensor(93.6420, grad_fn=<UnbindBackward0>), tensor(71.5653, grad_fn=<UnbindBackward0>), tensor(265.6659, grad_fn=<UnbindBackward0>), tensor(319.8220, grad_fn=<UnbindBackward0>)]
+label: 2 0.9, bbox: [tensor(198.3237, grad_fn=<UnbindBackward0>), tensor(7.1823, grad_fn=<UnbindBackward0>), tensor(240.5101, grad_fn=<UnbindBackward0>), tensor(38.0595, grad_fn=<UnbindBackward0>)]
+label: 0 0.89, bbox: [tensor(72.1331, grad_fn=<UnbindBackward0>), tensor(28.1596, grad_fn=<UnbindBackward0>), tensor(205.8262, grad_fn=<UnbindBackward0>), tensor(158.1567, grad_fn=<UnbindBackward0>)]
+label: 24 0.78, bbox: [tensor(306.5127, grad_fn=<UnbindBackward0>), tensor(89.5658, grad_fn=<UnbindBackward0>), tensor(398.6472, grad_fn=<UnbindBackward0>), tensor(196.6719, grad_fn=<UnbindBackward0>)]
+label: 2 0.74, bbox: [tensor(262.4177, grad_fn=<UnbindBackward0>), tensor(2.1122, grad_fn=<UnbindBackward0>), tensor(314.6630, grad_fn=<UnbindBackward0>), tensor(36.6103, grad_fn=<UnbindBackward0>)]
+label: 2 0.69, bbox: [tensor(138.5843, grad_fn=<UnbindBackward0>), tensor(0.5188, grad_fn=<UnbindBackward0>), tensor(191.6870, grad_fn=<UnbindBackward0>), tensor(33.6475, grad_fn=<UnbindBackward0>)]
+label: 2 0.68, bbox: [tensor(0.0197, grad_fn=<UnbindBackward0>), tensor(10.7261, grad_fn=<UnbindBackward0>), tensor(115.5047, grad_fn=<UnbindBackward0>), tensor(154.6702, grad_fn=<UnbindBackward0>)]
+label: 3 0.65, bbox: [tensor(-0.1940, grad_fn=<UnbindBackward0>), tensor(89.2261, grad_fn=<UnbindBackward0>), tensor(160.7768, grad_fn=<UnbindBackward0>), tensor(233.7975, grad_fn=<UnbindBackward0>)]
+
+Execution time: 0.4935 sec

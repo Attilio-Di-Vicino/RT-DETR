@@ -1,0 +1,12 @@
+label: 2 0.96, bbox: [tensor(68.4548, grad_fn=<UnbindBackward0>), tensor(74.5517, grad_fn=<UnbindBackward0>), tensor(350.3660, grad_fn=<UnbindBackward0>), tensor(258.6240, grad_fn=<UnbindBackward0>)]
+label: 0 0.94, bbox: [tensor(315.9630, grad_fn=<UnbindBackward0>), tensor(125.3435, grad_fn=<UnbindBackward0>), tensor(411.3637, grad_fn=<UnbindBackward0>), tensor(290.0412, grad_fn=<UnbindBackward0>)]
+label: 2 0.89, bbox: [tensor(342.2693, grad_fn=<UnbindBackward0>), tensor(58.9072, grad_fn=<UnbindBackward0>), tensor(499.9866, grad_fn=<UnbindBackward0>), tensor(207.1825, grad_fn=<UnbindBackward0>)]
+label: 2 0.75, bbox: [tensor(362.6476, grad_fn=<UnbindBackward0>), tensor(28.9276, grad_fn=<UnbindBackward0>), tensor(390.8480, grad_fn=<UnbindBackward0>), tensor(38.2748, grad_fn=<UnbindBackward0>)]
+label: 2 0.74, bbox: [tensor(76.0201, grad_fn=<UnbindBackward0>), tensor(38.5448, grad_fn=<UnbindBackward0>), tensor(101.5064, grad_fn=<UnbindBackward0>), tensor(50.2320, grad_fn=<UnbindBackward0>)]
+label: 2 0.72, bbox: [tensor(103.5879, grad_fn=<UnbindBackward0>), tensor(38.5926, grad_fn=<UnbindBackward0>), tensor(127.1237, grad_fn=<UnbindBackward0>), tensor(48.4861, grad_fn=<UnbindBackward0>)]
+label: 2 0.7, bbox: [tensor(244.5074, grad_fn=<UnbindBackward0>), tensor(31.9834, grad_fn=<UnbindBackward0>), tensor(259.8504, grad_fn=<UnbindBackward0>), tensor(41.8204, grad_fn=<UnbindBackward0>)]
+label: 2 0.7, bbox: [tensor(5.4987, grad_fn=<UnbindBackward0>), tensor(46.5904, grad_fn=<UnbindBackward0>), tensor(37.5276, grad_fn=<UnbindBackward0>), tensor(54.8805, grad_fn=<UnbindBackward0>)]
+label: 2 0.64, bbox: [tensor(129.3062, grad_fn=<UnbindBackward0>), tensor(39.9006, grad_fn=<UnbindBackward0>), tensor(149.8436, grad_fn=<UnbindBackward0>), tensor(48.3753, grad_fn=<UnbindBackward0>)]
+label: 2 0.6, bbox: [tensor(262.2721, grad_fn=<UnbindBackward0>), tensor(28.0566, grad_fn=<UnbindBackward0>), tensor(277.3951, grad_fn=<UnbindBackward0>), tensor(38.6967, grad_fn=<UnbindBackward0>)]
+
+Execution time: 0.4808 sec

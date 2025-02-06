@@ -1,0 +1,12 @@
+label: 0 0.89, bbox: [tensor(432.3766, grad_fn=<UnbindBackward0>), tensor(146.7121, grad_fn=<UnbindBackward0>), tensor(479.7463, grad_fn=<UnbindBackward0>), tensor(301.9814, grad_fn=<UnbindBackward0>)]
+label: 0 0.89, bbox: [tensor(331.6117, grad_fn=<UnbindBackward0>), tensor(151.9132, grad_fn=<UnbindBackward0>), tensor(384.5960, grad_fn=<UnbindBackward0>), tensor(310.3659, grad_fn=<UnbindBackward0>)]
+label: 0 0.89, bbox: [tensor(230.9950, grad_fn=<UnbindBackward0>), tensor(150.3681, grad_fn=<UnbindBackward0>), tensor(273.1075, grad_fn=<UnbindBackward0>), tensor(262.1555, grad_fn=<UnbindBackward0>)]
+label: 0 0.86, bbox: [tensor(178.3250, grad_fn=<UnbindBackward0>), tensor(155.5656, grad_fn=<UnbindBackward0>), tensor(205.9412, grad_fn=<UnbindBackward0>), tensor(230.9626, grad_fn=<UnbindBackward0>)]
+label: 0 0.83, bbox: [tensor(17.7559, grad_fn=<UnbindBackward0>), tensor(167.1166, grad_fn=<UnbindBackward0>), tensor(36.3184, grad_fn=<UnbindBackward0>), tensor(217.5159, grad_fn=<UnbindBackward0>)]
+label: 0 0.8, bbox: [tensor(373.2704, grad_fn=<UnbindBackward0>), tensor(145.0123, grad_fn=<UnbindBackward0>), tensor(399.4094, grad_fn=<UnbindBackward0>), tensor(256.4856, grad_fn=<UnbindBackward0>)]
+label: 0 0.76, bbox: [tensor(141.8268, grad_fn=<UnbindBackward0>), tensor(154.4061, grad_fn=<UnbindBackward0>), tensor(166.9395, grad_fn=<UnbindBackward0>), tensor(227.2672, grad_fn=<UnbindBackward0>)]
+label: 0 0.69, bbox: [tensor(213.0098, grad_fn=<UnbindBackward0>), tensor(141.0429, grad_fn=<UnbindBackward0>), tensor(226.3984, grad_fn=<UnbindBackward0>), tensor(188.3119, grad_fn=<UnbindBackward0>)]
+label: 65 0.67, bbox: [tensor(330.7409, grad_fn=<UnbindBackward0>), tensor(193.9549, grad_fn=<UnbindBackward0>), tensor(340.0396, grad_fn=<UnbindBackward0>), tensor(203.7861, grad_fn=<UnbindBackward0>)]
+label: 0 0.61, bbox: [tensor(109.8291, grad_fn=<UnbindBackward0>), tensor(152.2523, grad_fn=<UnbindBackward0>), tensor(128.1390, grad_fn=<UnbindBackward0>), tensor(214.8620, grad_fn=<UnbindBackward0>)]
+
+Execution time: 0.5112 sec

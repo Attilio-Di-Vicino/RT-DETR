@@ -1,0 +1,12 @@
+label: 0 0.96, bbox: [tensor(51.7238, grad_fn=<UnbindBackward0>), tensor(78.8400, grad_fn=<UnbindBackward0>), tensor(242.2477, grad_fn=<UnbindBackward0>), tensor(336.8983, grad_fn=<UnbindBackward0>)]
+label: 0 0.96, bbox: [tensor(238.4358, grad_fn=<UnbindBackward0>), tensor(65.6221, grad_fn=<UnbindBackward0>), tensor(423.5867, grad_fn=<UnbindBackward0>), tensor(336.6266, grad_fn=<UnbindBackward0>)]
+label: 41 0.91, bbox: [tensor(224.9124, grad_fn=<UnbindBackward0>), tensor(277.2559, grad_fn=<UnbindBackward0>), tensor(255.5298, grad_fn=<UnbindBackward0>), tensor(336.8373, grad_fn=<UnbindBackward0>)]
+label: 0 0.89, bbox: [tensor(76.0230, grad_fn=<UnbindBackward0>), tensor(51.4606, grad_fn=<UnbindBackward0>), tensor(115.3533, grad_fn=<UnbindBackward0>), tensor(128.7127, grad_fn=<UnbindBackward0>)]
+label: 41 0.89, bbox: [tensor(255.0182, grad_fn=<UnbindBackward0>), tensor(251.6291, grad_fn=<UnbindBackward0>), tensor(290.8830, grad_fn=<UnbindBackward0>), tensor(292.6405, grad_fn=<UnbindBackward0>)]
+label: 0 0.87, bbox: [tensor(27.8247, grad_fn=<UnbindBackward0>), tensor(65.1964, grad_fn=<UnbindBackward0>), tensor(97.1714, grad_fn=<UnbindBackward0>), tensor(135.3139, grad_fn=<UnbindBackward0>)]
+label: 41 0.85, bbox: [tensor(253.7464, grad_fn=<UnbindBackward0>), tensor(290.5953, grad_fn=<UnbindBackward0>), tensor(294.1736, grad_fn=<UnbindBackward0>), tensor(337.0490, grad_fn=<UnbindBackward0>)]
+label: 0 0.76, bbox: [tensor(456.3878, grad_fn=<UnbindBackward0>), tensor(104.4967, grad_fn=<UnbindBackward0>), tensor(500.0749, grad_fn=<UnbindBackward0>), tensor(270.0276, grad_fn=<UnbindBackward0>)]
+label: 0 0.71, bbox: [tensor(11.8588, grad_fn=<UnbindBackward0>), tensor(63.4718, grad_fn=<UnbindBackward0>), tensor(33.4243, grad_fn=<UnbindBackward0>), tensor(114.2497, grad_fn=<UnbindBackward0>)]
+label: 48 0.6, bbox: [tensor(138.0437, grad_fn=<UnbindBackward0>), tensor(294.8505, grad_fn=<UnbindBackward0>), tensor(191.7511, grad_fn=<UnbindBackward0>), tensor(336.4212, grad_fn=<UnbindBackward0>)]
+
+Execution time: 0.4875 sec
