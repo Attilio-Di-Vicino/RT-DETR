@@ -199,13 +199,27 @@ def main(args, ):
         end_time = time.time()
         elapsed_time = end_time - start_time
 
-        score = score.item() 
-        box = tuple(box.tolist())
-        with open(predictions_path, "w") as f:
-            for label, box, score in zip(labels, boxes, scores):
-                f.write(f"Label: {label}, Box: {box}, Score: {score:.2f}\n")
-            f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
-  
+        # score = scores.item() 
+        # box = tuple(box.tolist())
+        # with open(predictions_path, "w") as f:
+        #     for label, box, score in zip(labels, boxes, scores):
+        #         f.write(f"Label: {label}, Box: {box}, Score: {score:.2f}\n")
+        #     f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
+        if len(labels) > 0 and len(boxes) > 0 and len(scores) > 0:
+            with open(predictions_path, "w") as f:
+                for label, box, score in zip(labels, boxes, scores):
+                    # Se score è un tensore, convertilo in un valore numerico
+                    score = score.item() if isinstance(score, torch.Tensor) else score  # Gestisce entrambi i casi (tensor o numero)
+                    box = tuple(box.tolist()) if isinstance(box, torch.Tensor) else box  # Gestisce box se è un tensore
+
+                    # Scrive nel file le predizioni
+                    f.write(f"Label: {label}, Box: {box}, Score: {score:.2f}\n")
+                f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
+        else:
+            with open(predictions_path, "w") as f:
+                f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
+            print("Errore: labels, boxes o scores sono vuoti!")
+    
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
