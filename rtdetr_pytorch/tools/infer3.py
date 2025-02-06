@@ -147,6 +147,8 @@ def main(args, ):
     image_folder = os.path.join(args.output, "images")
     os.makedirs(image_folder, exist_ok=True)
 
+    execution_time = []
+
     for img_file in image_files:
         start_time = time.time()
         print(f"[INFO] img_file: {img_file}")
@@ -199,26 +201,6 @@ def main(args, ):
         end_time = time.time()
         elapsed_time = end_time - start_time
 
-        # score = scores.item() 
-        # box = tuple(box.tolist())
-        # with open(predictions_path, "w") as f:
-        #     for label, box, score in zip(labels, boxes, scores):
-        #         f.write(f"Label: {label}, Box: {box}, Score: {score:.2f}\n")
-        #     f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
-        # if len(labels) > 0 and len(boxes) > 0 and len(scores) > 0:
-        #     with open(predictions_path, "w") as f:
-        #         for label, box, score in zip(labels, boxes, scores):
-        #             # Se score è un tensore, convertilo in un valore numerico
-        #             score = score.item() if isinstance(score, torch.Tensor) else score  # Gestisce entrambi i casi (tensor o numero)
-        #             box = tuple(box.tolist()) if isinstance(box, torch.Tensor) else box  # Gestisce box se è un tensore
-
-        #             # Scrive nel file le predizioni
-        #             f.write(f"Label: {label}, Box: {box}, Score: {score:.2f}\n")
-        #         f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
-        # else:
-        #     with open(predictions_path, "w") as f:
-        #         f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
-        #     print("Errore: labels, boxes o scores sono vuoti!")
         if len(labels) > 0 and len(boxes) > 0 and len(scores) > 0:
             with open(predictions_path, "w") as f:
                 for label, box, score in zip(labels, boxes, scores):
@@ -243,6 +225,30 @@ def main(args, ):
                 f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
             
             print("Errore: labels, boxes o scores sono vuoti!")
+        execution_time.append(elapsed_time)
+    
+    # Calcolare la media dei tempi di esecuzione
+    average_time = sum(execution_time) / len(execution_time) if execution_time else 0
+
+    info_path = "info.txt"
+    # Ottenere informazioni sulla GPU, se disponibile
+    gpu_info = "No GPU available"
+    if torch.cuda.is_available():
+        # Ottieni il nome della GPU
+        gpu_name = torch.cuda.get_device_name(0)
+        # Ottieni la memoria totale e usata della GPU
+        total_memory = torch.cuda.get_device_properties(0).total_memory
+        allocated_memory = torch.cuda.memory_allocated(0)
+        free_memory = total_memory - allocated_memory
+        gpu_info = f"GPU: {gpu_name}, Total Memory: {total_memory // (1024**2)} MB, Allocated Memory: {allocated_memory // (1024**2)} MB, Free Memory: {free_memory // (1024**2)} MB"
+
+    # Scrivere i dati nel file info.txt
+    info_path = "info.txt"
+    with open(info_path, "w") as f:
+        f.write(f"Execution times: {execution_time}\n")  # Scrivi tutti i tempi di esecuzione
+        f.write(f"Average execution time: {average_time:.4f} sec\n")  # Scrivi il tempo medio
+        f.write(f"Total images processed: {len(execution_time)}\n")  # Scrivi il numero di immagini processate
+        f.write(f"{gpu_info}\n")  # Scrivi le informazioni sulla GPU
 
     
 if __name__ == '__main__':
