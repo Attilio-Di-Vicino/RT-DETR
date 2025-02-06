@@ -15,6 +15,6 @@ source ~/rtdetr/bin/activate
 python tools/infer3.py \
     -c configs/rtdetr/rtdetr_r50vd_6x_coco.yml \
     -r weights/rtdetr_r50vd_6x_coco.pth \
-    -i ../PascalCOCO/valid2 \
+    -i ../PascalCOCO/valid3 \
     -o ../PascalCOCO/
     
