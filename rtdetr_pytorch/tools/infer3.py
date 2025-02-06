@@ -227,16 +227,11 @@ def main(args, ):
             print("Errore: labels, boxes o scores sono vuoti!")
         execution_time.append(elapsed_time)
     
-    # Calcolare la media dei tempi di esecuzione
     average_time = sum(execution_time) / len(execution_time) if execution_time else 0
-
     info_path = "info.txt"
-    # Ottenere informazioni sulla GPU, se disponibile
     gpu_info = "No GPU available"
     if torch.cuda.is_available():
-        # Ottieni il nome della GPU
         gpu_name = torch.cuda.get_device_name(0)
-        # Ottieni la memoria totale e usata della GPU
         total_memory = torch.cuda.get_device_properties(0).total_memory
         allocated_memory = torch.cuda.memory_allocated(0)
         free_memory = total_memory - allocated_memory
@@ -245,7 +240,6 @@ def main(args, ):
     # Scrivere i dati nel file info.txt
     info_path = "info.txt"
     with open(info_path, "w") as f:
-        f.write(f"Execution times: {execution_time}\n")  # Scrivi tutti i tempi di esecuzione
         f.write(f"Average execution time: {average_time:.4f} sec\n")  # Scrivi il tempo medio
         f.write(f"Total images processed: {len(execution_time)}\n")  # Scrivi il numero di immagini processate
         f.write(f"{gpu_info}\n")  # Scrivi le informazioni sulla GPU
