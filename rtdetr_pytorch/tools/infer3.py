@@ -99,24 +99,45 @@ def merge_predictions(predictions, slice_coordinates, orig_image_size, slice_wid
         merged_boxes.extend(valid_boxes)
         merged_scores.extend(valid_scores)
     return np.array(merged_labels), np.array(merged_boxes), np.array(merged_scores)
-def draw(images, file_name, predictions_path, labels, boxes, scores, thrh = 0.6, path = ""):
-    for i, im in enumerate(images):
-        draw = ImageDraw.Draw(im)
-        scr = scores[i]
-        lab = labels[i][scr > thrh]
-        box = boxes[i][scr > thrh]
-        scrs = scores[i][scr > thrh]
-        for j,b in enumerate(box):
-            draw.rectangle(list(b), outline='red',)
-            draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(),2)}", font=ImageFont.load_default(), fill='blue')
-            with open(predictions_path, "w") as f:
-                f.write(f"label: {lab[j].item()} {round(scrs[j].item(),2)}, bbox: {list(b)}")
+# def draw(images, file_name, predictions_path, labels, boxes, scores, thrh = 0.6, path = ""):
+#     for i, im in enumerate(images):
+#         draw = ImageDraw.Draw(im)
+#         scr = scores[i]
+#         lab = labels[i][scr > thrh]
+#         box = boxes[i][scr > thrh]
+#         scrs = scores[i][scr > thrh]
+#         for j,b in enumerate(box):
+#             draw.rectangle(list(b), outline='red',)
+#             draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(),2)}", font=ImageFont.load_default(), fill='blue')
+#             with open(predictions_path, "w") as f:
+#                 f.write(f"label: {lab[j].item()} {round(scrs[j].item(),2)}, bbox: {list(b)}")
 
-        if path == "":
-            im.save(f"{file_name}.jpg")  
-        else:
-            os.makedirs(path, exist_ok=True)  
-            im.save(os.path.join(path, f"{file_name}.jpg"))
+#         if path == "":
+#             im.save(f"{file_name}.jpg")  
+#         else:
+#             os.makedirs(path, exist_ok=True)  
+#             im.save(os.path.join(path, f"{file_name}.jpg"))
+def draw(images, file_name, predictions_path, labels, boxes, scores, thrh = 0.6, path = ""):
+    # Apre il file in modalità append prima di iniziare a iterare sulle immagini
+    with open(predictions_path, "w") as f:  # Cambia "w" con "a" per appendere, se vuoi aggiungere al file
+        for i, im in enumerate(images):
+            draw = ImageDraw.Draw(im)
+            scr = scores[i]
+            lab = labels[i][scr > thrh]
+            box = boxes[i][scr > thrh]
+            scrs = scores[i][scr > thrh]
+            for j,b in enumerate(box):
+                draw.rectangle(list(b), outline='red',)
+                draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(),2)}", font=ImageFont.load_default(), fill='blue')
+                # Scrive nel file le informazioni sul risultato
+                f.write(f"label: {lab[j].item()} {round(scrs[j].item(),2)}, bbox: {list(b)}\n")
+
+            if path == "":
+                im.save(f"{file_name}.jpg")  
+            else:
+                os.makedirs(path, exist_ok=True)  
+                im.save(os.path.join(path, f"{file_name}.jpg"))
+
             
 def main(args, ):
     """main
@@ -226,7 +247,7 @@ def main(args, ):
         # else:
         #     with open(predictions_path, "w") as f:
         #         f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
-        with open(predictions_path, "w") as f:
+        with open(predictions_path, "a") as f:
                 f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
             
         print("Errore: labels, boxes o scores sono vuoti!")
@@ -245,11 +266,13 @@ def main(args, ):
 
     # Scrivere i dati nel file info.txt
     info_path = "info.txt"
-    with open(info_path, "w") as f:
+    with open(info_path, "a") as f:
+        f.write(f"------------------------------------------------")  # Scrivi il tempo medio
         f.write(f"Total time: {total_time:.4f} sec\n")  # Scrivi il tempo medio
         f.write(f"Average execution time: {average_time:.4f} sec\n")  # Scrivi il tempo medio
         f.write(f"Total images processed: {len(execution_time)}\n")  # Scrivi il numero di immagini processate
         f.write(f"{gpu_info}\n")  # Scrivi le informazioni sulla GPU
+        f.write(f"------------------------------------------------")  # Scrivi il tempo medio
 
     
 if __name__ == '__main__':
