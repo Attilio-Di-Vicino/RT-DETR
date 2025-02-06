@@ -195,7 +195,7 @@ def main(args, ):
         predictions_path = os.path.join(predictions_folder, f"{img_file}.txt")
 
         # file_name = img_file.removesuffix(".jpg")
-        draw([im_pil], img_file, labels, boxes, scores, 0.6)
+        draw([im_pil], img_file, labels, boxes, scores, 0.6, image_folder)
         end_time = time.time()
         elapsed_time = end_time - start_time
 
