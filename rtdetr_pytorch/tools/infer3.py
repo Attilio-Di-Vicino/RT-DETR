@@ -144,6 +144,7 @@ def main(args, ):
     """
     cfg = YAMLConfig(args.config, resume=args.resume)
     print(f"[INFO] Dataset: {args.input}")
+    print(f"[INFO] Device: {args.device}")
     if args.resume:
         checkpoint = torch.load(args.resume, map_location='cpu') 
         if 'ema' in checkpoint:
@@ -248,6 +249,8 @@ def main(args, ):
     info_path = "info.txt"
     fps = len(execution_time) / total_time
     with open(info_path, "a") as f:
+        f.write("Using GPU:", torch.cuda.is_available())
+        f.write("Device:", torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU")
         f.write(f"------------------------------------------------\n")  # Scrivi il tempo medio
         f.write(f"Total time: {total_time:.4f} sec\n")  # Scrivi il tempo medio
         f.write(f"Average execution time: {average_time:.4f} sec\n")  # Scrivi il tempo medio
