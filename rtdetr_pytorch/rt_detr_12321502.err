@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "tools/infer3.py", line 275, in <module>
+    main(args)
+  File "tools/infer3.py", line 250, in main
+    fps = len(execution_time) / total_time
+ZeroDivisionError: division by zero
