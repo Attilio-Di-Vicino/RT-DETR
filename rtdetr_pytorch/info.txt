@@ -147,4 +147,28 @@ Average execution time: 0.0463 sec
 Total images processed: 484
 FPS: 21.62
 GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 807 MB, Free Memory: 64137 MB
+------------------------------------------------------------------------------------------------
+Total time: 53.0877 sec
+Average execution time: 26.5438 sec
+Total images processed: 2
+FPS: 0.04
+GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 0 MB, Free Memory: 64944 MB
+------------------------------------------------------------------------------------------------
+Total time: 53.1739 sec
+Average execution time: 26.5870 sec
+Total images processed: 2
+FPS: 0.04
+GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 0 MB, Free Memory: 64944 MB
+------------------------------------------------------------------------------------------------
+Total time: 53.1528 sec
+Average execution time: 26.5764 sec
+Total images processed: 2
+FPS: 0.04
+GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 0 MB, Free Memory: 64944 MB
+------------------------------------------------------------------------------------------------
+Total time: 53.1531 sec
+Average execution time: 26.5765 sec
+Total images processed: 2
+FPS: 0.04
+GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 0 MB, Free Memory: 64944 MB
 ------------------------------------------------
