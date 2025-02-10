@@ -175,7 +175,7 @@ def main(args, ):
     execution_time = []
 
     for img_file in image_files:
-        start_time = time.time()
+        # start_time = time.time()
         print(f"[INFO] img_file: {img_file}")
         im_pil = Image.open(os.path.join(args.input, img_file)).convert('RGB')
         w, h = im_pil.size
@@ -212,7 +212,9 @@ def main(args, ):
             merged_labels, merged_boxes, merged_scores = merge_predictions(predictions, coordinates, (h, w), slice_width, slice_height)
             labels, boxes, scores = postprocess(merged_labels, merged_boxes, merged_scores)
         else:
+            start_time = time.time()
             output = model(im_data, orig_size)
+            end_time = time.time()
             labels, boxes, scores = output
 
         # Salvataggio delle predizioni in un file di testo
@@ -223,7 +225,7 @@ def main(args, ):
 
         # file_name = img_file.removesuffix(".jpg")
         draw([im_pil], img_file, predictions_path, labels, boxes, scores, 0.6, image_folder)
-        end_time = time.time()
+        # end_time = time.time()
         elapsed_time = end_time - start_time
         with open(predictions_path, "a") as f:
                 f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
