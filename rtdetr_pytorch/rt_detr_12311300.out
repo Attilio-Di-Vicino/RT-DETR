@@ -1,0 +1,7 @@
+[INFO] Dataset: ../PascalCOCO/valid2
+[INFO] Device: cuda
+Load PResNet50 state_dict
+[INFO] img_file: 2007_000549_jpg.rf.17a674b34880cb7de3ddf62fe523afe3.jpg
+Errore: labels, boxes o scores sono vuoti!
+[INFO] img_file: 2007_000491_jpg.rf.e119fd90e33194813206f222022edc2a.jpg
+Errore: labels, boxes o scores sono vuoti!
