@@ -17,7 +17,8 @@ source ~/rtdetr/bin/activate
 
 # Verifica GPU prima di eseguire lo script
 echo "Test GPU prima dell'esecuzione:"
-nvidia-smi || echo "Errore: impossibile accedere alla GPU"
+# nvidia-smi || echo "Errore: impossibile accedere alla GPU"
+nvidia-smi --loop=1
 
 # Esegui lo script con srun (opzionale)
 srun python tools/infer3.py \
