@@ -247,7 +247,10 @@ def main(args, ):
 
     # Scrivere i dati nel file info.txt
     info_path = "info.txt"
-    fps = len(execution_time) / total_time
+    if total_time > 0:
+        fps = len(execution_time) / total_time
+    else:
+        fps = len(execution_time)
     with open(info_path, "a") as f:
         f.write(f"------------------------------------------------\n")  # Scrivi il tempo medio
         if torch.cuda.is_available() and args.device == "cuda":
