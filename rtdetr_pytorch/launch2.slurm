@@ -25,4 +25,5 @@ srun python tools/infer3.py \
     -r weights/rtdetr_r50vd_6x_coco.pth \
     -i ../PascalCOCO/$DATASET \
     -o ../PascalCOCO/ \
+    -s True \
     -d cpu

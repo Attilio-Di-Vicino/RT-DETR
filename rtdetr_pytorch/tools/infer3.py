@@ -198,6 +198,7 @@ def main(args, ):
             overlap_ratio = 0.2
             slices, coordinates = slice_image(im_pil, slice_height, slice_width, overlap_ratio)
             predictions = []
+            start_time = time.time()
             for i, slice_img in enumerate(slices):
                 slice_tensor = transforms(slice_img)[None].to(args.device)
                 with autocast():  # Use AMP for each slice
@@ -209,6 +210,7 @@ def main(args, ):
                 boxes = boxes.cpu().detach().numpy()
                 scores = scores.cpu().detach().numpy()
                 predictions.append((labels, boxes, scores))
+            end_time = time.time()
             
             merged_labels, merged_boxes, merged_scores = merge_predictions(predictions, coordinates, (h, w), slice_width, slice_height)
             labels, boxes, scores = postprocess(merged_labels, merged_boxes, merged_scores)
@@ -250,6 +252,7 @@ def main(args, ):
         f.write(f"------------------------------------------------\n")  # Scrivi il tempo medio
         if torch.cuda.is_available() and args.device == "cuda":
             f.write(f"Using GPU: TRUE\n")
+        f.write(f"Slide: {args.sliced}")
         f.write(f"Total time: {total_time:.4f} sec\n")  # Scrivi il tempo medio
         f.write(f"Average execution time: {average_time:.4f} sec\n")  # Scrivi il tempo medio
         f.write(f"Total images processed: {len(execution_time)}\n")  # Scrivi il numero di immagini processate
