@@ -247,9 +247,9 @@ def main(args, ):
     info_path = "info.txt"
     fps = len(execution_time) / total_time
     with open(info_path, "a") as f:
-        if torch.cuda.is_available():
-            f.write(f"Using GPU: TRUE")
         f.write(f"------------------------------------------------\n")  # Scrivi il tempo medio
+        if torch.cuda.is_available() and args.device == "cuda":
+            f.write(f"Using GPU: TRUE\n")
         f.write(f"Total time: {total_time:.4f} sec\n")  # Scrivi il tempo medio
         f.write(f"Average execution time: {average_time:.4f} sec\n")  # Scrivi il tempo medio
         f.write(f"Total images processed: {len(execution_time)}\n")  # Scrivi il numero di immagini processate
