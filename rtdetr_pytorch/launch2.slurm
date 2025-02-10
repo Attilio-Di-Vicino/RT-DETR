@@ -6,7 +6,7 @@
 #SBATCH --time=01:59:00      # HH:MM:SS
 #SBATCH -N 1                 # 1 nodo richiesto
 #SBATCH --ntasks-per-node=4  # 4 tasks su 32 disponibili
-#SBATCH --gres=gpu:1         # 1 GPU richiesta su un nodo che ne ha 4
+#SBATCH --gres=gpu:2         # 1 GPU richiesta su un nodo che ne ha 4
 #SBATCH --mem=123000         # Memoria richiesta (123GB su ~481GB)
 #SBATCH --job-name=pinns_angio_gpu
 
@@ -25,5 +25,5 @@ srun python tools/infer3.py \
     -r weights/rtdetr_r50vd_6x_coco.pth \
     -i ../PascalCOCO/$DATASET \
     -o ../PascalCOCO/ \
-    -s True \
+    -s False \
     -d cuda
