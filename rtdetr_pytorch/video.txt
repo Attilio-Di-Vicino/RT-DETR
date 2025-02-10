@@ -1,0 +1,7 @@
+Total time: 6911.4513 sec
+Average execution time per frame: 4.5711 sec
+Total images/frame processed: 1512
+FPS: 0.22
+Video FPS: 23, Duration: 65.74 sec, Total Frames: 1512
+GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 0 MB, Free Memory: 64944 MB
+
