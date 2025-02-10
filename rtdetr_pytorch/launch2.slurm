@@ -10,6 +10,8 @@
 #SBATCH --mem=123000
 #SBATCH --job-name=pinns_angio_gpu
 
+DATASET=$1
+
 # Carica i moduli necessari
 module load cuda/12.1
 source ~/rtdetr/bin/activate
