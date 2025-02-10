@@ -209,6 +209,7 @@ def run_inference(params):
         "-c", args.config,
         "-r", args.weights,
         "-f", str(image_path),
+        "-d", str("cuda")
         # "-o", str(output_path)  # Specifica l'output dell'inferenza
     ]
 
