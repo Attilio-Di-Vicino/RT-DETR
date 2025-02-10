@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "tools/infer3.py", line 274, in <module>
-    main(args)
-  File "tools/infer3.py", line 252, in main
-    f.write("Using GPU:", torch.cuda.is_available())
-TypeError: write() takes exactly one argument (2 given)

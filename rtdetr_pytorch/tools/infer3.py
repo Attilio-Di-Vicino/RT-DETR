@@ -230,8 +230,6 @@ def main(args, ):
         elapsed_time = end_time - start_time
         with open(predictions_path, "a") as f:
                 f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
-            
-        print("Errore: labels, boxes o scores sono vuoti!")
         execution_time.append(elapsed_time)
     
     total_time = sum(execution_time)
@@ -249,8 +247,8 @@ def main(args, ):
     info_path = "info.txt"
     fps = len(execution_time) / total_time
     with open(info_path, "a") as f:
-        f.write("Using GPU:", torch.cuda.is_available())
-        f.write("Device:", torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU")
+        if torch.cuda.is_available():
+            f.write(f"Using GPU: TRUE")
         f.write(f"------------------------------------------------\n")  # Scrivi il tempo medio
         f.write(f"Total time: {total_time:.4f} sec\n")  # Scrivi il tempo medio
         f.write(f"Average execution time: {average_time:.4f} sec\n")  # Scrivi il tempo medio
