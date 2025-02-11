@@ -1,4 +1,4 @@
-label: 2 0.93, bbox: [tensor(288.3167, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(405.8398, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1225.5605, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(812.0396, device='cuda:0', grad_fn=<UnbindBackward0>)]
-label: 9 0.78, bbox: [tensor(1025.1252, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(332.1959, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1068.3997, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(413.3831, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: car 0.93, bbox: [tensor(288.3167, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(405.8398, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1225.5605, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(812.0396, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: traffic light 0.78, bbox: [tensor(1025.1252, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(332.1959, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1068.3997, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(413.3831, device='cuda:0', grad_fn=<UnbindBackward0>)]
 
-Execution time: 0.0221 sec
+Execution time: 0.0223 sec

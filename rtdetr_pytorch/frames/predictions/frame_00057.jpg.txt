@@ -1,3 +1,3 @@
-label: 0 0.73, bbox: [tensor(481.3656, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(188.8694, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1799.9669, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(944.4449, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: person 0.73, bbox: [tensor(481.3656, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(188.8694, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1799.9669, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(944.4449, device='cuda:0', grad_fn=<UnbindBackward0>)]
 
-Execution time: 0.0221 sec
+Execution time: 0.0227 sec

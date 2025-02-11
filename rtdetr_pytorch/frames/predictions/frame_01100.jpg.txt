@@ -1,4 +1,4 @@
-label: 0 0.88, bbox: [tensor(612.9197, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(140.8687, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1311.2778, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(944.2524, device='cuda:0', grad_fn=<UnbindBackward0>)]
-label: 56 0.6, bbox: [tensor(454.4761, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(801.4567, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(596.4308, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(947.7109, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: person 0.88, bbox: [tensor(612.9197, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(140.8687, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1311.2778, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(944.2524, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: carrot 0.6, bbox: [tensor(454.4761, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(801.4567, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(596.4308, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(947.7109, device='cuda:0', grad_fn=<UnbindBackward0>)]
 
-Execution time: 0.0221 sec
+Execution time: 0.0225 sec

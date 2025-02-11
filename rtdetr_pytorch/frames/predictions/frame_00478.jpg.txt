@@ -1,4 +1,4 @@
-label: 75 0.69, bbox: [tensor(564.3552, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(137.5394, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(889.8754, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(906.2754, device='cuda:0', grad_fn=<UnbindBackward0>)]
-label: 75 0.65, bbox: [tensor(2.3001, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(133.3470, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(683.3248, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(953.4143, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: keyboard 0.69, bbox: [tensor(564.3552, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(137.5394, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(889.8754, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(906.2754, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: keyboard 0.65, bbox: [tensor(2.3001, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(133.3470, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(683.3248, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(953.4143, device='cuda:0', grad_fn=<UnbindBackward0>)]
 
-Execution time: 0.0221 sec
+Execution time: 0.0224 sec

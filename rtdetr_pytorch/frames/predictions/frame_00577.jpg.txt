@@ -1,3 +1,3 @@
-label: 61 0.63, bbox: [tensor(1.6665, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(132.9277, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1394.3701, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(675.6802, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: chair 0.63, bbox: [tensor(1.6665, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(132.9277, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1394.3701, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(675.6802, device='cuda:0', grad_fn=<UnbindBackward0>)]
 
-Execution time: 0.0222 sec
+Execution time: 0.0224 sec

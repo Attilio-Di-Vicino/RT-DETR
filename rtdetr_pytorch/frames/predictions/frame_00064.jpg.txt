@@ -1,4 +1,4 @@
-label: 0 0.96, bbox: [tensor(482.6204, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(185.7288, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1800.3125, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(943.3811, device='cuda:0', grad_fn=<UnbindBackward0>)]
-label: 39 0.65, bbox: [tensor(448.4549, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(373.2200, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(514.6745, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(554.4962, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: person 0.96, bbox: [tensor(482.6204, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(185.7288, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1800.3125, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(943.3811, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: baseball glove 0.65, bbox: [tensor(448.4549, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(373.2200, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(514.6745, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(554.4962, device='cuda:0', grad_fn=<UnbindBackward0>)]
 
-Execution time: 0.0222 sec
+Execution time: 0.0223 sec

@@ -1,4 +1,4 @@
-label: 0 0.86, bbox: [tensor(-1.1236, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(132.3464, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(494.4387, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(949.8295, device='cuda:0', grad_fn=<UnbindBackward0>)]
-label: 33 0.8, bbox: [tensor(1664.3362, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(585.3785, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1721.8568, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(638.6877, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: person 0.86, bbox: [tensor(-1.1236, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(132.3464, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(494.4387, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(949.8295, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: frisbee 0.8, bbox: [tensor(1664.3362, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(585.3785, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1721.8568, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(638.6877, device='cuda:0', grad_fn=<UnbindBackward0>)]
 
-Execution time: 0.0223 sec
+Execution time: 0.0224 sec
