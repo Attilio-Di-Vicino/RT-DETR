@@ -25,7 +25,7 @@ python tools/infer3.py \
     -c configs/rtdetr/rtdetr_r50vd_6x_coco.yml \
     -r weights/rtdetr_r50vd_6x_coco.pth \
     -i $DATASET \
-    -o ../PascalCOCO/ \
+    -o frames/ \
     -d cuda
 
 # Verifica lo stato della GPU dopo l'esecuzione
