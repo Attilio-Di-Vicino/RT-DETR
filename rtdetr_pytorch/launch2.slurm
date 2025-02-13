@@ -11,6 +11,7 @@
 #SBATCH --job-name=pinns_angio_gpu
 
 DATASET=$1
+NC=$2
 
 # Carica i moduli necessari
 module load cuda/12.1
@@ -27,7 +28,7 @@ python tools/infer3.py \
     -i ../PascalCOCO/$DATASET \
     -o ../PascalCOCO/ \
     -d cuda \
-    -nc 1
+    -nc $NC
 
 # Verifica lo stato della GPU dopo l'esecuzione
 echo "Stato della GPU dopo l'esecuzione:"
