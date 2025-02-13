@@ -3,7 +3,7 @@
 #SBATCH --output=rt_detr_%j.out
 #SBATCH --error=rt_detr_%j.err
 #SBATCH -p boost_usr_prod
-#SBATCH --time=01:59:00
+#SBATCH --time=10:00:00:00
 #SBATCH -N 1
 #SBATCH --ntasks-per-node=4
 #SBATCH --gres=gpu:1
