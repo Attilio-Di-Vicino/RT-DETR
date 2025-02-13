@@ -26,7 +26,8 @@ python tools/infer3.py \
     -r weights/rtdetr_r50vd_6x_coco.pth \
     -i ../PascalCOCO/$DATASET \
     -o ../PascalCOCO/ \
-    -d cuda
+    -d cuda \
+    -nc 1
 
 # Verifica lo stato della GPU dopo l'esecuzione
 echo "Stato della GPU dopo l'esecuzione:"

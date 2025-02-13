@@ -318,7 +318,7 @@ def draw(images, file_name, predictions_path, labels, boxes, scores, thrh=0.6, p
                 color = mscoco_category2color.get(label_id, (255, 255, 255))  # Bianco di default
                 
                 # Disegna rettangolo con linea più spessa
-                draw.rectangle(list(b), outline=color, width=2)
+                draw.rectangle(list(b), outline=color, width=3)
                 
                 # Crea testo con label e score
                 text = f"{label_name} {round(scrs[j].item(), 2)}"
@@ -347,6 +347,7 @@ def main(args, ):
     cfg = YAMLConfig(args.config, resume=args.resume)
     print(f"[INFO] Dataset: {args.input}")
     print(f"[INFO] Device: {args.device}")
+    print(f"[INFO] NC: {args.numberofboxes}")
     if args.resume:
         checkpoint = torch.load(args.resume, map_location='cpu') 
         if 'ema' in checkpoint:
