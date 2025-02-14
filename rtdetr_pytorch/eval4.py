@@ -4,6 +4,11 @@ import numpy as np
 import re
 from glob import glob
 from collections import defaultdict
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.data.coco.coco_eval import CocoEvaluator
 
 pascal_category2name = { 
     0: 'VOC', 1: 'aeroplane', 2: 'bicycle', 3: 'bird', 4: 'boat', 5: 'bottle',
@@ -25,15 +30,29 @@ mscoco_category2name = {
     85: 'clock', 86: 'vase', 87: 'scissors', 88: 'teddy bear', 89: 'hair dryer', 90: 'toothbrush'
 }
 
-# model_to_dataset_mapping = {
-#     # + 1
-#     0: 15,    # person 
-#     1: 2,     # bicycle 
-#     17: 3,    # bird
-#     10: 4,    # boat
-#     45: 5,    # bottle
-#     7: 
-# }
+model_to_dataset_mapping = {
+    4: 1, # aeroplane -> airplane
+    1: 2, # bicycle 
+    14: 3, # bird
+    8: 4, # boat
+    39: 5, # bottle
+    5: 6, # bus
+    2: 7, # car
+    15: 8, # cat
+    56: 9, # chair
+    19: 10, # cow
+    60: 11, # diningtable -> dining table
+    16: 12, # dog
+    17: 13, # horse
+    3: 14, # motorbike -> motorcycle
+    0: 15, # person
+    58: 16, # pottedplant -> potted plant
+    18: 17, # sheep
+    57: 18, # sofa -> couch
+    6: 19, # train
+    62: 20, # tvmonitor -> tv
+    63: 20, # tvmonitor -> laptop
+}
 
 
 def parse_bbox(tensor_str):
