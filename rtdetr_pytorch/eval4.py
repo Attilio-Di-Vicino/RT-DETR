@@ -106,11 +106,18 @@ def load_predictions(predictions_folder, categories):
             lines = f.readlines()
         
         for line in lines:
+            print(f"Riga della predizione: {line}")
             if "label:" in line and "bbox:" in line:
                 parts = line.strip().split(", bbox: ")
                 label_conf = parts[0].replace("label: ", "").split()
                 label_str = label_conf[0]  # Categoria (ad esempio 'person')
-                conf = float(label_conf[1])  # Confidenza
+
+                # Tentativo di conversione della confidenza in un numero
+                try:
+                    conf = float(label_conf[1])  # Confidenza
+                except ValueError:
+                    print(f"Errore nella conversione della confidenza per {image_name}: {label_conf[1]}")
+                    continue  # Salta questa predizione se la confidenza non è un numero valido
 
                 # Mappa la categoria dal nome al numero
                 if label_str in categories.values():
