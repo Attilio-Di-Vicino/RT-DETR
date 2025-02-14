@@ -69,15 +69,17 @@ def load_predictions(predictions_folder):
         for line in lines:
             if "label:" in line and "bbox:" in line:
                 parts = line.strip().split(", bbox: ")
-                label_conf = parts[0].replace("label: ", "").split()  # Separiamo label e confidenza
+                # label_conf = parts[0].replace("label: ", "").split()  # Separiamo label e confidenza
+                label_conf = parts[0].replace("label: ", "").split(maxsplit=1)  # Dividi solo la prima volta, non su tutte le parole
 
-                # La confidenza è l'ultimo elemento della lista dopo 'label' e deve essere un numero
+
                 try:
                     conf = float(label_conf[-1])  # Confidenza
                     label = int(label_conf[0])  # INTERPRETIAMO COME INTERO
-                except ValueError:
-                    print(f"Errore nella conversione di label/confidenza per {image_name}: {label_conf}")
+                except ValueError as e:
+                    print(f"Errore nella conversione di label/confidenza per {image_name}: {label_conf} | Errore: {e}")
                     continue  # Salta questa predizione se la confidenza non è un numero valido
+
 
                 # Controllo con mappatura numerica
                 if label in model_to_dataset_mapping:
