@@ -18,8 +18,8 @@ nvidia-smi
 python tools/batch_infer.py \
     -c configs/rtdetr/rtdetr_r50vd_6x_coco.yml \
     -r weights/rtdetr_r50vd_6x_coco.pth \
-    -v ../PascalCOCO/video/video.mp4 \
-    -o output.mp4
+    -v ../PascalCOCO/video/$DATASET.mp4 \
+    -o out_$DATASET.mp4
 echo "GPU state after execution:"
 nvidia-smi
 
