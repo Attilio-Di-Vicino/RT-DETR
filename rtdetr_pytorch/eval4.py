@@ -217,17 +217,29 @@ if __name__ == "__main__":
     gt_data, category_pascal = load_ground_truth(GT_JSON_PATH)
     pred_data = load_predictions(PREDICTIONS_FOLDER, mscoco_category2name)
 
-    # print(gt_data)
-    print(category_pascal)
-    # print(pred_data)
-
     # Filter out predictions with "Unknown" category
     for image_name, predictions in pred_data.items():
         filtered_predictions = [prediction for prediction in predictions if prediction['category'] != 'Unknown']
         pred_data[image_name] = filtered_predictions
 
+    # Ciclo per leggere le predizioni e mappare le label
+    for image_name, predictions in pred_data.items():
+        for prediction in predictions:
+            label_conf = prediction['category']  # Assuming 'category' is the name here (e.g. 'person')
+            
+            # Mappiamo la categoria al numero corrispondente
+            if label_conf in mscoco_category2name.values():
+                label = list(mscoco_category2name.keys())[list(mscoco_category2name.values()).index(label_conf)]
+            else:
+                print(f"Unknown category: {label_conf}")
+                continue  # Skip this prediction if it's an unknown category
+
+            # Modifica la predizione con la label numerica
+            prediction['category'] = label
+
     # Crea l'oggetto evaluator, passando la mappatura
     coco_evaluator = CocoEvaluator(pred_data, iou_types=['bbox'])
+
     
     # print(pred_data)
 
