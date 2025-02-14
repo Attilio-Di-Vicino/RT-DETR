@@ -69,28 +69,33 @@ def load_predictions(predictions_folder):
         for line in lines:
             if "label:" in line and "bbox:" in line:
                 parts = line.strip().split(", bbox: ")
-                
-                # Estrarre 'label' e 'confidenza'
-                label_conf = parts[0].replace("label: ", "").split()
-                label_num = int(label_conf[0])  # numero della categoria (es. 67)
-                conf = float(label_conf[1])    # confidenza (es. 0.9)
 
-                # Ottieni il nome della categoria usando la mappatura
-                label_name = mscoco_category2name.get(label_num, "unknown")  # 'mouse' se 67, 'unknown' se non esiste
+                # Separiamo la label e la confidenza
+                label_conf = parts[0].replace("label: ", "").split()
+
+                try:
+                    label_num = int(label_conf[0])  # Il primo valore è il numero della categoria (es. 0)
+                    conf = float(label_conf[1])    # Il secondo valore è la confidenza (es. 0.91)
+
+                except ValueError as e:
+                    print(f"Errore nella conversione di label/confidenza per {image_name}: {label_conf} | Errore: {e}")
+                    continue  # Salta questa predizione se la confidenza non è un numero valido
+
+                # Ottieni il nome della categoria usando il dizionario
+                label_name = mscoco_category2name.get(label_num, "unknown")  # Restituisce 'unknown' se non trovato
 
                 # Mappa la label numerica con la mappatura 'model_to_dataset_mapping'
                 if label_num in model_to_dataset_mapping:
                     label_num = model_to_dataset_mapping[label_num]
                 else:
-                    label_num = -1  # se non mappato
+                    label_num = -1  # Se la label non è mappata
 
-                # Estrai la bounding box
                 bbox = parse_bbox(parts[1])  # Estrai i valori numerici per la bounding box
 
                 # Aggiungi l'annotazione nel dizionario
                 pred_annotations[image_name].append({
                     "category": label_num,  # Etichetta numerica per la categoria
-                    "category_name": label_name,  # Nome della categoria (es. 'mouse')
+                    "category_name": label_name,  # Nome della categoria (es. 'person')
                     "confidence": conf,  # Confidenza
                     "bbox": bbox
                 })
