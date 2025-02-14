@@ -3,7 +3,7 @@
 #SBATCH --output=rt_detr_%j.out
 #SBATCH --error=rt_detr_%j.err
 #SBATCH -p boost_usr_prod
-#SBATCH --time=01:59:00
+#SBATCH --time=23:00:00
 #SBATCH -N 1
 #SBATCH --ntasks-per-node=4
 #SBATCH --gres=gpu:1
@@ -11,23 +11,15 @@
 #SBATCH --job-name=pinns_angio_gpu
 
 DATASET=$1
-
-# Carica i moduli necessari
 module load cuda/12.1
 source ~/rtdetr/bin/activate
-
-# Verifica lo stato della GPU prima dell'esecuzione
-echo "Stato della GPU prima dell'esecuzione:"
+echo "GPU state before execution:"
 nvidia-smi
-
-# Esegui il tuo script Python
 python tools/infer3.py \
     -c configs/rtdetr/rtdetr_r50vd_6x_coco.yml \
     -r weights/rtdetr_r50vd_6x_coco.pth \
-    -i $DATASET \
-    -o frames/ \
-    -d cuda
-
-# Verifica lo stato della GPU dopo l'esecuzione
-echo "Stato della GPU dopo l'esecuzione:"
+    -i ../PascalCOCO/$DATASET \
+    -o ../PascalCOCO/ \
+    -d cuda \
+echo "GPU state after execution:"
 nvidia-smi

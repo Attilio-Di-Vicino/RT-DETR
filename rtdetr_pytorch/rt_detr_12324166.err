@@ -1,2 +1,0 @@
-usage: batch_infer.py [-h] -c CONFIG -r WEIGHTS -v VIDEO [-o OUTPUT]
-batch_infer.py: error: unrecognized arguments: -d cuda

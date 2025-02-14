@@ -11,23 +11,15 @@
 #SBATCH --job-name=pinns_angio_gpu
 
 DATASET=$1
-
-# Carica i moduli necessari
 module load cuda/12.1
 source ~/rtdetr/bin/activate
-
-# Verifica lo stato della GPU prima dell'esecuzione
-echo "Stato della GPU prima dell'esecuzione:"
+echo "GPU state before execution:"
 nvidia-smi
-
-# Esegui il tuo script Python
 python tools/batch_infer.py \
     -c configs/rtdetr/rtdetr_r50vd_6x_coco.yml \
     -r weights/rtdetr_r50vd_6x_coco.pth \
     -v ../PascalCOCO/video/video.mp4 \
     -o output.mp4
-
-# Verifica lo stato della GPU dopo l'esecuzione
-echo "Stato della GPU dopo l'esecuzione:"
+echo "GPU state after execution:"
 nvidia-smi
 

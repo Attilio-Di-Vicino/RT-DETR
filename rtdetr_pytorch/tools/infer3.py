@@ -13,6 +13,7 @@ from src.core import YAMLConfig
 from src.solver import TASKS
 import numpy as np
 import time
+from util import model_to_dataset_mapping, mscoco_category2color, mscoco_category2label, mscoco_label2category
 
 def postprocess(labels, boxes, scores, iou_threshold=0.55):
     def calculate_iou(box1, box2):
@@ -99,210 +100,6 @@ def merge_predictions(predictions, slice_coordinates, orig_image_size, slice_wid
         merged_boxes.extend(valid_boxes)
         merged_scores.extend(valid_scores)
     return np.array(merged_labels), np.array(merged_boxes), np.array(merged_scores)
-# def draw(images, file_name, predictions_path, labels, boxes, scores, thrh = 0.6, path = ""):
-#     for i, im in enumerate(images):
-#         draw = ImageDraw.Draw(im)
-#         scr = scores[i]
-#         lab = labels[i][scr > thrh]
-#         box = boxes[i][scr > thrh]
-#         scrs = scores[i][scr > thrh]
-#         for j,b in enumerate(box):
-#             draw.rectangle(list(b), outline='red',)
-#             draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(),2)}", font=ImageFont.load_default(), fill='blue')
-#             with open(predictions_path, "w") as f:
-#                 f.write(f"label: {lab[j].item()} {round(scrs[j].item(),2)}, bbox: {list(b)}")
-
-#         if path == "":
-#             im.save(f"{file_name}.jpg")  
-#         else:
-#             os.makedirs(path, exist_ok=True)  
-#             im.save(os.path.join(path, f"{file_name}.jpg"))
-# def draw(images, file_name, predictions_path, labels, boxes, scores, thrh = 0.6, path = ""):
-#     # Apre il file in modalità append prima di iniziare a iterare sulle immagini
-#     with open(predictions_path, "w") as f:  # Cambia "w" con "a" per appendere, se vuoi aggiungere al file
-#         for i, im in enumerate(images):
-#             draw = ImageDraw.Draw(im)
-#             scr = scores[i]
-#             lab = labels[i][scr > thrh]
-#             box = boxes[i][scr > thrh]
-#             scrs = scores[i][scr > thrh]
-#             for j,b in enumerate(box):
-#                 draw.rectangle(list(b), outline='red',)
-#                 draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(),2)}", font=ImageFont.load_default(), fill='blue')
-#                 # Scrive nel file le informazioni sul risultato
-#                 f.write(f"label: {lab[j].item()} {round(scrs[j].item(),2)}, bbox: {list(b)}\n")
-
-#             if path == "":
-#                 im.save(f"{file_name}.jpg")  
-#             else:
-#                 os.makedirs(path, exist_ok=True)  
-#                 im.save(os.path.join(path, f"{file_name}.jpg"))
-mscoco_category2name = {
-    1: 'person',
-    2: 'bicycle',
-    3: 'car',
-    4: 'motorcycle',
-    5: 'airplane',
-    6: 'bus',
-    7: 'train',
-    8: 'truck',
-    9: 'boat',
-    10: 'traffic light',
-    11: 'fire hydrant',
-    13: 'stop sign',
-    14: 'parking meter',
-    15: 'bench',
-    16: 'bird',
-    17: 'cat',
-    18: 'dog',
-    19: 'horse',
-    20: 'sheep',
-    21: 'cow',
-    22: 'elephant',
-    23: 'bear',
-    24: 'zebra',
-    25: 'giraffe',
-    27: 'backpack',
-    28: 'umbrella',
-    31: 'handbag',
-    32: 'tie',
-    33: 'suitcase',
-    34: 'frisbee',
-    35: 'skis',
-    36: 'snowboard',
-    37: 'sports ball',
-    38: 'kite',
-    39: 'baseball bat',
-    40: 'baseball glove',
-    41: 'skateboard',
-    42: 'surfboard',
-    43: 'tennis racket',
-    44: 'bottle',
-    46: 'wine glass',
-    47: 'cup',
-    48: 'fork',
-    49: 'knife',
-    50: 'spoon',
-    51: 'bowl',
-    52: 'banana',
-    53: 'apple',
-    54: 'sandwich',
-    55: 'orange',
-    56: 'broccoli',
-    57: 'carrot',
-    58: 'hot dog',
-    59: 'pizza',
-    60: 'donut',
-    61: 'cake',
-    62: 'chair',
-    63: 'couch',
-    64: 'potted plant',
-    65: 'bed',
-    67: 'dining table',
-    70: 'toilet',
-    72: 'tv',
-    73: 'laptop',
-    74: 'mouse',
-    75: 'remote',
-    76: 'keyboard',
-    77: 'cell phone',
-    78: 'microwave',
-    79: 'oven',
-    80: 'toaster',
-    81: 'sink',
-    82: 'refrigerator',
-    84: 'book',
-    85: 'clock',
-    86: 'vase',
-    87: 'scissors',
-    88: 'teddy bear',
-    89: 'hair dryer',
-    90: 'toothbrush'
-}
-
-mscoco_category2color = {
-    1: (255, 0, 0),    # Rosso per 'person'
-    2: (0, 255, 0),    # Verde per 'bicycle'
-    3: (0, 0, 255),    # Blu per 'car'
-    4: (255, 255, 0),  # Giallo per 'motorcycle'
-    5: (255, 165, 0),  # Arancione per 'airplane'
-    6: (128, 0, 128),  # Viola per 'bus'
-    7: (0, 255, 255),  # Ciano per 'train'
-    8: (255, 105, 180),# Rosa per 'truck'
-    9: (75, 0, 130),   # Indaco per 'boat'
-    10: (255, 255, 255), # Bianco per 'traffic light'
-    11: (255, 69, 0),  # Rosso arancio per 'fire hydrant'
-    13: (139, 69, 19), # Marrone per 'stop sign'
-    14: (255, 223, 0), # Oro per 'parking meter'
-    15: (160, 82, 45), # Marrone chiaro per 'bench'
-    16: (173, 216, 230), # Azzurro per 'bird'
-    17: (128, 128, 128), # Grigio per 'cat'
-    18: (165, 42, 42),   # Marrone scuro per 'dog'
-    19: (102, 51, 0),    # Terra per 'horse'
-    20: (153, 255, 153), # Verde chiaro per 'sheep'
-    21: (139, 0, 0),     # Rosso scuro per 'cow'
-    22: (255, 228, 181), # Pesca per 'elephant'
-    23: (0, 0, 0),       # Nero per 'bear'
-    24: (255, 255, 153), # Giallo chiaro per 'zebra'
-    25: (218, 165, 32),  # Oro scuro per 'giraffe'
-    27: (0, 128, 0),     # Verde scuro per 'backpack'
-    28: (0, 0, 128),     # Blu scuro per 'umbrella'
-    31: (192, 192, 192), # Argento per 'handbag'
-    32: (128, 0, 0),     # Marrone scuro per 'tie'
-    33: (0, 139, 139),   # Verde acqua scuro per 'suitcase'
-    34: (255, 20, 147),  # Rosa intenso per 'frisbee'
-    35: (70, 130, 180),  # Acciaio per 'skis'
-    36: (72, 61, 139),   # Indaco scuro per 'snowboard'
-    37: (255, 140, 0),   # Arancione scuro per 'sports ball'
-    38: (240, 230, 140), # Khaki per 'kite'
-    39: (160, 160, 160), # Grigio medio per 'baseball bat'
-    40: (222, 184, 135), # Sabbia per 'baseball glove'
-    41: (255, 99, 71),   # Rosso tomato per 'skateboard'
-    42: (128, 128, 0),   # Oliva per 'surfboard'
-    43: (85, 107, 47),   # Verde bosco per 'tennis racket'
-    44: (210, 180, 140), # Beige per 'bottle'
-    46: (205, 133, 63),  # Marrone per 'wine glass'
-    47: (255, 239, 213), # Crema per 'cup'
-    48: (192, 192, 192), # Argento per 'fork'
-    49: (169, 169, 169), # Grigio scuro per 'knife'
-    50: (128, 128, 128), # Grigio per 'spoon'
-    51: (112, 128, 144), # Grigio bluastro per 'bowl'
-    52: (255, 255, 0),   # Giallo per 'banana'
-    53: (255, 0, 255),   # Magenta per 'apple'
-    54: (255, 182, 193), # Rosa chiaro per 'sandwich'
-    55: (255, 165, 0),   # Arancione per 'orange'
-    56: (0, 128, 0),     # Verde scuro per 'broccoli'
-    57: (255, 127, 80),  # Corallo per 'carrot'
-    58: (255, 69, 0),    # Rosso arancio per 'hot dog'
-    59: (139, 69, 19),   # Marrone per 'pizza'
-    60: (255, 215, 0),   # Oro per 'donut'
-    61: (139, 0, 0),     # Rosso scuro per 'cake'
-    62: (165, 42, 42),   # Marrone per 'chair'
-    63: (128, 0, 0),     # Marrone scuro per 'couch'
-    64: (85, 107, 47),   # Verde bosco per 'potted plant'
-    65: (255, 218, 185), # Pesca chiaro per 'bed'
-    67: (70, 130, 180),  # Acciaio per 'dining table'
-    70: (105, 105, 105), # Grigio scuro per 'toilet'
-    72: (173, 216, 230), # Azzurro per 'tv'
-    73: (0, 255, 255),   # Ciano per 'laptop'
-    74: (240, 128, 128), # Rosso chiaro per 'mouse'
-    75: (100, 149, 237), # Blu cobalto per 'remote'
-    76: (184, 134, 11),  # Oro scuro per 'keyboard'
-    77: (255, 140, 0),   # Arancione scuro per 'cell phone'
-    78: (46, 139, 87),   # Verde mare per 'microwave'
-    79: (160, 82, 45),   # Marrone per 'oven'
-    80: (205, 133, 63),  # Marrone per 'toaster'
-    81: (32, 178, 170),  # Verde scuro per 'sink'
-    82: (0, 0, 128),     # Blu scuro per 'refrigerator'
-    84: (139, 69, 19),   # Marrone per 'book'
-    85: (255, 215, 0),   # Oro per 'clock'
-    86: (255, 182, 193), # Rosa chiaro per 'vase'
-    87: (255, 105, 180), # Rosa per 'scissors'
-    88: (255, 20, 147),  # Rosa intenso per 'teddy bear'
-    89: (70, 130, 180),  # Acciaio per 'hair dryer'
-    90: (128, 0, 128)    # Viola per 'toothbrush'
-}
-
 def draw(images, file_name, predictions_path, labels, boxes, scores, thrh=0.6, path=""):
     with open(predictions_path, "w") as f:
         for i, im in enumerate(images):
@@ -311,43 +108,27 @@ def draw(images, file_name, predictions_path, labels, boxes, scores, thrh=0.6, p
             lab = labels[i][scr > thrh]
             box = boxes[i][scr > thrh]
             scrs = scores[i][scr > thrh]
-
             for j, b in enumerate(box):
                 label_id = lab[j].item() + 1
-                label_name = mscoco_category2name.get(label_id, "Unknown")  # Nome della classe
-                color = mscoco_category2color.get(label_id, (255, 255, 255))  # Bianco di default
-                
-                # Disegna rettangolo con linea più spessa
+                label_name = mscoco_category2label.get(label_id, "Unknown")  
+                color = mscoco_category2color.get(label_id, (255, 255, 255))  # white default
                 draw.rectangle(list(b), outline=color, width=3)
-                
-                # Crea testo con label e score
                 text = f"{label_name} {round(scrs[j].item(), 2)}"
-                
-                # Font più leggibile
                 try:
-                    font = ImageFont.truetype("arial.ttf", 16)  # Font più chiaro se disponibile
+                    font = ImageFont.truetype("arial.ttf", 20) 
                 except:
                     font = ImageFont.load_default()  # Fallback
-                
-                # Scrive il testo sopra il box
                 draw.text((b[0], b[1] - 10), text, font=font, fill=color)
-                
-                # Scrive nel file di output
-                f.write(f"label: {label_name} {round(scrs[j].item(),2)}, bbox: {list(b)}\n")
-
-            # Salva l'immagine
+                f.write(f"label: {label_id} {round(scrs[j].item(),2)}, bbox: {list(b)}\n")
             save_path = os.path.join(path, f"{file_name}.jpg") if path else f"{file_name}.jpg"
             os.makedirs(os.path.dirname(save_path), exist_ok=True)
-            im.save(save_path)
-
-            
+            im.save(save_path)    
 def main(args, ):
     """main
     """
     cfg = YAMLConfig(args.config, resume=args.resume)
     print(f"[INFO] Dataset: {args.input}")
     print(f"[INFO] Device: {args.device}")
-    # print(f"[INFO] NC: {args.numberofboxes}")
     if args.resume:
         checkpoint = torch.load(args.resume, map_location='cpu') 
         if 'ema' in checkpoint:
@@ -377,9 +158,7 @@ def main(args, ):
     os.makedirs(image_folder, exist_ok=True)
 
     execution_time = []
-
     for img_file in image_files:
-        # start_time = time.time()
         print(f"[INFO] img_file: {img_file}")
         im_pil = Image.open(os.path.join(args.input, img_file)).convert('RGB')
         w, h = im_pil.size
@@ -423,15 +202,11 @@ def main(args, ):
             end_time = time.time()
             labels, boxes, scores = output
 
-        # Salvataggio delle predizioni in un file di testo
+        # Saving the predictions
         predictions_folder = os.path.join(args.output, "predictions")
         os.makedirs(predictions_folder, exist_ok=True)
-
         predictions_path = os.path.join(predictions_folder, f"{img_file}.txt")
-
-        # file_name = img_file.removesuffix(".jpg")
         draw([im_pil], img_file, predictions_path, labels, boxes, scores, 0.6, image_folder)
-        # end_time = time.time()
         elapsed_time = end_time - start_time
         with open(predictions_path, "a") as f:
                 f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
@@ -447,8 +222,6 @@ def main(args, ):
         allocated_memory = torch.cuda.memory_allocated(0)
         free_memory = total_memory - allocated_memory
         gpu_info = f"GPU: {gpu_name}, Total Memory: {total_memory // (1024**2)} MB, Allocated Memory: {allocated_memory // (1024**2)} MB, Free Memory: {free_memory // (1024**2)} MB"
-
-    # Scrivere i dati nel file info.txt
     info_path = "info.txt"
     if total_time > 0:
         fps = len(execution_time) / total_time
