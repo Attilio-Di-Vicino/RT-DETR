@@ -12,6 +12,8 @@ import src.misc.dist as dist
 from src.core import YAMLConfig 
 from src.solver import TASKS
 import numpy as np
+import time
+from util import model_to_dataset_mapping, mscoco_category2color, mscoco_category2label, mscoco_label2category
 
 def postprocess(labels, boxes, scores, iou_threshold=0.55):
     def calculate_iou(box1, box2):
@@ -61,9 +63,9 @@ def postprocess(labels, boxes, scores, iou_threshold=0.55):
         merged_labels.append(current_label)
         merged_scores.append(merged_score)
     return [np.array(merged_labels)], [np.array(merged_boxes)], [np.array(merged_scores)]
-
 def slice_image(image, slice_height, slice_width, overlap_ratio):
     img_width, img_height = image.size
+    
     slices = []
     coordinates = []
     step_x = int(slice_width * (1 - overlap_ratio))
@@ -76,7 +78,6 @@ def slice_image(image, slice_height, slice_width, overlap_ratio):
             slices.append(slice_img)
             coordinates.append((x, y))
     return slices, coordinates
-
 def merge_predictions(predictions, slice_coordinates, orig_image_size, slice_width, slice_height, threshold=0.30):
     merged_labels = []
     merged_boxes = []
@@ -99,52 +100,35 @@ def merge_predictions(predictions, slice_coordinates, orig_image_size, slice_wid
         merged_boxes.extend(valid_boxes)
         merged_scores.extend(valid_scores)
     return np.array(merged_labels), np.array(merged_boxes), np.array(merged_scores)
-
-# def draw(images, labels, boxes, scores, thrh=0.6, path=""):
-#     for i, im in enumerate(images):
-#         draw = ImageDraw.Draw(im)
-#         scr = scores[i]
-#         lab = labels[i][scr > thrh]
-#         box = boxes[i][scr > thrh]
-#         scrs = scores[i][scr > thrh]
-#         for j, b in enumerate(box):
-#             draw.rectangle(list(b), outline='red')
-#             draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(), 2)}", font=ImageFont.load_default(), fill='blue')
-        
-#         if not os.path.exists("../../PascalCOCO/output"):
-#             os.makedirs("../../PascalCOCO/output")
-        
-#         # Salva le immagini nella cartella PascalCOCO/output
-#         im.save(f"../../PascalCOCO/output/results_{i}.jpg")
-#         im.save(f"results_{i}.jpg")
-def draw(images, img_file, labels, boxes, scores, thrh=0.6, output_dir="PascalCOCO/output"):
-    # Converti il percorso in assoluto rispetto alla cartella principale
-    output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../PascalCOCO/output'))
-    
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    for i, im in enumerate(images):
-        draw = ImageDraw.Draw(im)
-        scr = scores[i]
-        lab = labels[i][scr > thrh]
-        box = boxes[i][scr > thrh]
-        scrs = scores[i][scr > thrh]
-
-        for j, b in enumerate(box):
-            draw.rectangle(list(b), outline='red')
-            draw.text((b[0], b[1]), text=f"label: {lab[j].item()} {round(scrs[j].item(), 2)}", 
-                      font=ImageFont.load_default(), fill='blue')
-
-        # Salva le immagini nella cartella PascalCOCO/output
-        output_path = os.path.join(output_dir, f"{img_file}.jpg")
-        im.save(output_path)
-
-        print(f"Salvato: {output_path}")  # Debug per verificare il percorso
-
-
-def main(args):
+def draw(images, file_name, predictions_path, labels, boxes, scores, thrh=0.6, path=""):
+    with open(predictions_path, "w") as f:
+        for i, im in enumerate(images):
+            draw = ImageDraw.Draw(im)
+            scr = scores[i]
+            lab = labels[i][scr > thrh]
+            box = boxes[i][scr > thrh]
+            scrs = scores[i][scr > thrh]
+            for j, b in enumerate(box):
+                label_id = lab[j].item() + 1
+                label_name = mscoco_category2label.get(label_id, "Unknown")  
+                color = mscoco_category2color.get(label_id, (255, 255, 255))  # white default
+                draw.rectangle(list(b), outline=color, width=3)
+                text = f"{label_name} {round(scrs[j].item(), 2)}"
+                try:
+                    font = ImageFont.truetype("arial.ttf", 20) 
+                except:
+                    font = ImageFont.load_default()  # Fallback
+                draw.text((b[0], b[1] - 10), text, font=font, fill=color)
+                f.write(f"label: {label_id} {round(scrs[j].item(),2)}, bbox: {list(b)}\n")
+            save_path = os.path.join(path, f"{file_name}.jpg") if path else f"{file_name}.jpg"
+            os.makedirs(os.path.dirname(save_path), exist_ok=True)
+            im.save(save_path)    
+def main(args, ):
+    """main
+    """
     cfg = YAMLConfig(args.config, resume=args.resume)
+    print(f"[INFO] Dataset: {args.input}")
+    print(f"[INFO] Device: {args.device}")
     if args.resume:
         checkpoint = torch.load(args.resume, map_location='cpu') 
         if 'ema' in checkpoint:
@@ -153,10 +137,10 @@ def main(args):
             state = checkpoint['model']
     else:
         raise AttributeError('Only support resume to load model.state_dict by now.')
+    # NOTE load train mode state -> convert to deploy mode
     cfg.model.load_state_dict(state)
-    
     class Model(nn.Module):
-        def __init__(self) -> None:
+        def __init__(self, ) -> None:
             super().__init__()
             self.model = cfg.model.deploy()
             self.postprocessor = cfg.postprocessor.deploy()
@@ -167,23 +151,27 @@ def main(args):
             return outputs
     
     model = Model().to(args.device)
+
+    image_files = [f for f in os.listdir(args.input) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
     
-    # Esplora la cartella di immagini
-    image_files = [f for f in os.listdir(args.im_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
-    
+    image_folder = os.path.join(args.output, "images")
+    os.makedirs(image_folder, exist_ok=True)
+
+    execution_time = []
     for img_file in image_files:
-        im_pil = Image.open(os.path.join(args.im_folder, img_file)).convert('RGB')
+        print(f"[INFO] img_file: {img_file}")
+        im_pil = Image.open(os.path.join(args.input, img_file)).convert('RGB')
         w, h = im_pil.size
         orig_size = torch.tensor([w, h])[None].to(args.device)
         
         transforms = T.Compose([
-            T.Resize((640, 640)),
+            T.Resize((640, 640)),  
             T.ToTensor(),
         ])
         im_data = transforms(im_pil)[None].to(args.device)
-        
         if args.sliced:
             num_boxes = args.numberofboxes
+            
             aspect_ratio = w / h
             num_cols = int(np.sqrt(num_boxes * aspect_ratio)) 
             num_rows = int(num_boxes / num_cols)
@@ -192,31 +180,73 @@ def main(args):
             overlap_ratio = 0.2
             slices, coordinates = slice_image(im_pil, slice_height, slice_width, overlap_ratio)
             predictions = []
+            start_time = time.time()
             for i, slice_img in enumerate(slices):
                 slice_tensor = transforms(slice_img)[None].to(args.device)
-                with autocast():
+                with autocast():  # Use AMP for each slice
                     output = model(slice_tensor, torch.tensor([[slice_img.size[0], slice_img.size[1]]]).to(args.device))
                 torch.cuda.empty_cache() 
                 labels, boxes, scores = output
+                
                 labels = labels.cpu().detach().numpy()
                 boxes = boxes.cpu().detach().numpy()
                 scores = scores.cpu().detach().numpy()
                 predictions.append((labels, boxes, scores))
+            end_time = time.time()
             
             merged_labels, merged_boxes, merged_scores = merge_predictions(predictions, coordinates, (h, w), slice_width, slice_height)
             labels, boxes, scores = postprocess(merged_labels, merged_boxes, merged_scores)
         else:
+            start_time = time.time()
             output = model(im_data, orig_size)
+            end_time = time.time()
             labels, boxes, scores = output
-            
-        print("Saving...")
-        draw([im_pil], img_file, labels, boxes, scores, 0.6)
-  
+
+        # Saving the predictions
+        predictions_folder = os.path.join(args.output, "predictions")
+        os.makedirs(predictions_folder, exist_ok=True)
+        predictions_path = os.path.join(predictions_folder, f"{img_file}.txt")
+        draw([im_pil], img_file, predictions_path, labels, boxes, scores, 0.6, image_folder)
+        elapsed_time = end_time - start_time
+        with open(predictions_path, "a") as f:
+                f.write(f"\nExecution time: {elapsed_time:.4f} sec\n")
+        execution_time.append(elapsed_time)
+    
+    total_time = sum(execution_time)
+    average_time = sum(execution_time) / len(execution_time) if execution_time else 0
+    info_path = "info.txt"
+    gpu_info = "No GPU available"
+    if torch.cuda.is_available():
+        gpu_name = torch.cuda.get_device_name(0)
+        total_memory = torch.cuda.get_device_properties(0).total_memory
+        allocated_memory = torch.cuda.memory_allocated(0)
+        free_memory = total_memory - allocated_memory
+        gpu_info = f"GPU: {gpu_name}, Total Memory: {total_memory // (1024**2)} MB, Allocated Memory: {allocated_memory // (1024**2)} MB, Free Memory: {free_memory // (1024**2)} MB"
+    info_path = "info.txt"
+    if total_time > 0:
+        fps = len(execution_time) / total_time
+    else:
+        fps = len(execution_time)
+    with open(info_path, "a") as f:
+        f.write(f"------------------------------------------------\n")  # Scrivi il tempo medio
+        if torch.cuda.is_available() and args.device == "cuda":
+            f.write(f"Using GPU: TRUE\n")
+        f.write(f"Slide: {args.sliced}\n")
+        f.write(f"Total time: {total_time:.4f} sec\n")  # Scrivi il tempo medio
+        f.write(f"Average execution time: {average_time:.4f} sec\n")  # Scrivi il tempo medio
+        f.write(f"Total images processed: {len(execution_time)}\n")  # Scrivi il numero di immagini processate
+        f.write(f"FPS: {fps:.2f}\n")
+        f.write(f"{gpu_info}\n")  # Scrivi le informazioni sulla GPU
+        f.write(f"------------------------------------------------")  # Scrivi il tempo medio
+
+    
 if __name__ == '__main__':
+    import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--config', type=str, required=True)
-    parser.add_argument('-r', '--resume', type=str, required=True)
-    parser.add_argument('-i', '--im-folder', type=str, required=True, help="Path to the folder containing images")
+    parser.add_argument('-c', '--config', type=str, )
+    parser.add_argument('-r', '--resume', type=str, )
+    parser.add_argument('-i', '--input', type=str, required=True, help="Path to the folder containing images")
+    parser.add_argument('-o', '--output', type=str, required=True, help="Path to the folder containing outputs")
     parser.add_argument('-s', '--sliced', type=bool, default=False)
     parser.add_argument('-d', '--device', type=str, default='cpu')
     parser.add_argument('-nc', '--numberofboxes', type=int, default=25)

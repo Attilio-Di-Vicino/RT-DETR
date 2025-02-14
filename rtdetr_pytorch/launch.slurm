@@ -15,7 +15,7 @@ module load cuda/12.1
 source ~/rtdetr/bin/activate
 echo "GPU state before execution:"
 nvidia-smi
-python tools/infer3.py \
+python tools/infer2.py \
     -c configs/rtdetr/rtdetr_r50vd_6x_coco.yml \
     -r weights/rtdetr_r50vd_6x_coco.pth \
     -i ../PascalCOCO/$DATASET \
