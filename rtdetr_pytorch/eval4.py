@@ -66,6 +66,35 @@ def load_ground_truth(json_path):
     
     return gt_annotations, categories
 
+# def load_predictions(predictions_folder, categories):
+#     """Load model predictions from RT-DETR output text files, mapping numerical labels to category names."""
+#     pred_annotations = defaultdict(list)
+    
+#     for txt_file in glob(os.path.join(predictions_folder, "*.txt")):
+#         image_name = os.path.basename(txt_file).replace(".txt", "")
+        
+#         with open(txt_file, 'r') as f:
+#             lines = f.readlines()
+        
+#         for line in lines:
+#             if "label:" in line and "bbox:" in line:
+#                 parts = line.strip().split(", bbox: ")
+#                 label_conf = parts[0].replace("label: ", "").split()
+#                 label = int(label_conf[0])  # Numerical label (0, 1, 2...)
+#                 conf = float(label_conf[1])
+                
+#                 # Map from numeric label to category name
+#                 category_name = categories.get(label + 1, "Unknown")  # Fallback to "Unknown" if no match
+                
+#                 bbox = parse_bbox(parts[1])  # Extract numerical values
+                
+#                 pred_annotations[image_name].append({
+#                     "category": category_name,  # Use category name
+#                     "confidence": conf,
+#                     "bbox": bbox
+#                 })
+    
+#     return pred_annotations
 def load_predictions(predictions_folder, categories):
     """Load model predictions from RT-DETR output text files, mapping numerical labels to category names."""
     pred_annotations = defaultdict(list)
@@ -80,16 +109,20 @@ def load_predictions(predictions_folder, categories):
             if "label:" in line and "bbox:" in line:
                 parts = line.strip().split(", bbox: ")
                 label_conf = parts[0].replace("label: ", "").split()
-                label = int(label_conf[0])  # Numerical label (0, 1, 2...)
-                conf = float(label_conf[1])
-                
-                # Map from numeric label to category name
-                category_name = categories.get(label + 1, "Unknown")  # Fallback to "Unknown" if no match
-                
-                bbox = parse_bbox(parts[1])  # Extract numerical values
+                label_str = label_conf[0]  # Categoria (ad esempio 'person')
+                conf = float(label_conf[1])  # Confidenza
+
+                # Mappa la categoria dal nome al numero
+                if label_str in categories.values():
+                    label = list(categories.keys())[list(categories.values()).index(label_str)]
+                else:
+                    label = -1  # Categoria sconosciuta, impostiamo -1
+                    print(f"Unknown category: {label_str}")  # Puoi anche loggare questo
+
+                bbox = parse_bbox(parts[1])  # Estrai i valori numerici per la bounding box
                 
                 pred_annotations[image_name].append({
-                    "category": category_name,  # Use category name
+                    "category": label,  # Usa il numero della categoria
                     "confidence": conf,
                     "bbox": bbox
                 })
