@@ -106,17 +106,16 @@ def load_predictions(predictions_folder, categories):
             lines = f.readlines()
         
         for line in lines:
-            print(f"Riga della predizione: {line}")
             if "label:" in line and "bbox:" in line:
                 parts = line.strip().split(", bbox: ")
-                label_conf = parts[0].replace("label: ", "").split()
-                label_str = label_conf[0]  # Categoria (ad esempio 'person')
-
-                # Tentativo di conversione della confidenza in un numero
+                label_conf = parts[0].replace("label: ", "").split()  # Separiamo label e confidenza
+                
+                # La confidenza è l'ultimo elemento della lista dopo 'label' e deve essere un numero
                 try:
-                    conf = float(label_conf[1])  # Confidenza
+                    conf = float(label_conf[-1])  # Confidenza
+                    label_str = " ".join(label_conf[:-1])  # Categoria, escludendo la confidenza
                 except ValueError:
-                    print(f"Errore nella conversione della confidenza per {image_name}: {label_conf[1]}")
+                    print(f"Errore nella conversione della confidenza per {image_name}: {label_conf[-1]}")
                     continue  # Salta questa predizione se la confidenza non è un numero valido
 
                 # Mappa la categoria dal nome al numero
@@ -135,6 +134,7 @@ def load_predictions(predictions_folder, categories):
                 })
     
     return pred_annotations
+
 
 
 def calculate_iou(box1, box2):
