@@ -5,88 +5,36 @@ import re
 from glob import glob
 from collections import defaultdict
 
-mscoco_category2name = {
-    1: 'person',
-    2: 'bicycle',
-    3: 'car',
-    4: 'motorcycle',
-    5: 'airplane',
-    6: 'bus',
-    7: 'train',
-    8: 'truck',
-    9: 'boat',
-    10: 'traffic light',
-    11: 'fire hydrant',
-    13: 'stop sign',
-    14: 'parking meter',
-    15: 'bench',
-    16: 'bird',
-    17: 'cat',
-    18: 'dog',
-    19: 'horse',
-    20: 'sheep',
-    21: 'cow',
-    22: 'elephant',
-    23: 'bear',
-    24: 'zebra',
-    25: 'giraffe',
-    27: 'backpack',
-    28: 'umbrella',
-    31: 'handbag',
-    32: 'tie',
-    33: 'suitcase',
-    34: 'frisbee',
-    35: 'skis',
-    36: 'snowboard',
-    37: 'sports ball',
-    38: 'kite',
-    39: 'baseball bat',
-    40: 'baseball glove',
-    41: 'skateboard',
-    42: 'surfboard',
-    43: 'tennis racket',
-    44: 'bottle',
-    46: 'wine glass',
-    47: 'cup',
-    48: 'fork',
-    49: 'knife',
-    50: 'spoon',
-    51: 'bowl',
-    52: 'banana',
-    53: 'apple',
-    54: 'sandwich',
-    55: 'orange',
-    56: 'broccoli',
-    57: 'carrot',
-    58: 'hot dog',
-    59: 'pizza',
-    60: 'donut',
-    61: 'cake',
-    62: 'chair',
-    63: 'couch',
-    64: 'potted plant',
-    65: 'bed',
-    67: 'dining table',
-    70: 'toilet',
-    72: 'tv',
-    73: 'laptop',
-    74: 'mouse',
-    75: 'remote',
-    76: 'keyboard',
-    77: 'cell phone',
-    78: 'microwave',
-    79: 'oven',
-    80: 'toaster',
-    81: 'sink',
-    82: 'refrigerator',
-    84: 'book',
-    85: 'clock',
-    86: 'vase',
-    87: 'scissors',
-    88: 'teddy bear',
-    89: 'hair dryer',
-    90: 'toothbrush'
+pascal_category2name = { 
+    0: 'VOC', 1: 'aeroplane', 2: 'bicycle', 3: 'bird', 4: 'boat', 5: 'bottle',
+    6: 'bus', 7: 'car', 8: 'cat', 9: 'chair', 10: 'cow', 11: 'diningtable', 12: 'dog',
+    13: 'horse', 14: 'motorbike', 15: 'person', 16: 'pottedplant', 17: 'sheep', 18: 'sofa',
+    19: 'train', 20: 'tvmonitor'
 }
+
+mscoco_category2name = {
+    1: 'person', 2: 'bicycle', 3: 'car', 4: 'motorcycle', 5: 'airplane', 6: 'bus', 7: 'train', 8: 'truck', 9: 'boat',
+    10: 'traffic light', 11: 'fire hydrant', 13: 'stop sign', 14: 'parking meter', 15: 'bench', 16: 'bird', 17: 'cat',
+    18: 'dog', 19: 'horse', 20: 'sheep', 21: 'cow', 22: 'elephant', 23: 'bear', 24: 'zebra', 25: 'giraffe', 27: 'backpack',
+    28: 'umbrella', 31: 'handbag', 32: 'tie', 33: 'suitcase', 34: 'frisbee', 35: 'skis', 36: 'snowboard', 37: 'sports ball',
+    38: 'kite', 39: 'baseball bat', 40: 'baseball glove', 41: 'skateboard', 42: 'surfboard', 43: 'tennis racket', 44: 'bottle',
+    46: 'wine glass', 47: 'cup', 48: 'fork', 49: 'knife', 50: 'spoon', 51: 'bowl', 52: 'banana', 53: 'apple', 54: 'sandwich',
+    55: 'orange', 56: 'broccoli', 57: 'carrot', 58: 'hot dog', 59: 'pizza', 60: 'donut', 61: 'cake', 62: 'chair', 63: 'couch',
+    64: 'potted plant', 65: 'bed', 67: 'dining table', 70: 'toilet', 72: 'tv', 73: 'laptop', 74: 'mouse', 75: 'remote',
+    76: 'keyboard', 77: 'cell phone', 78: 'microwave', 79: 'oven', 80: 'toaster', 81: 'sink', 82: 'refrigerator', 84: 'book',
+    85: 'clock', 86: 'vase', 87: 'scissors', 88: 'teddy bear', 89: 'hair dryer', 90: 'toothbrush'
+}
+
+# model_to_dataset_mapping = {
+#     # + 1
+#     0: 15,    # person 
+#     1: 2,     # bicycle 
+#     17: 3,    # bird
+#     10: 4,    # boat
+#     45: 5,    # bottle
+#     7: 
+# }
+
 
 def parse_bbox(tensor_str):
     """Convert a PyTorch tensor string to a list of floats."""
@@ -116,7 +64,7 @@ def load_ground_truth(json_path):
                 "bbox": ann["bbox"]  # Format: [x, y, width, height]
             })
     
-    return gt_annotations
+    return gt_annotations, categories
 
 def load_predictions(predictions_folder, categories):
     """Load model predictions from RT-DETR output text files, mapping numerical labels to category names."""
@@ -256,39 +204,53 @@ def prediction_statistics(pred_annotations):
     
     return total_predictions, class_counts
 
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.data.coco.coco_eval import CocoEvaluator
 
 if __name__ == "__main__":
     GT_JSON_PATH = "../PascalCOCO/valid/_annotations.coco.json"  
     PREDICTIONS_FOLDER = "../PascalCOCO/predictions"  
     
-    gt_data = load_ground_truth(GT_JSON_PATH)
+    gt_data, category_pascal = load_ground_truth(GT_JSON_PATH)
     pred_data = load_predictions(PREDICTIONS_FOLDER, mscoco_category2name)
+
+    # print(gt_data)
+    print(category_pascal)
+    # print(pred_data)
 
     # Filter out predictions with "Unknown" category
     for image_name, predictions in pred_data.items():
         filtered_predictions = [prediction for prediction in predictions if prediction['category'] != 'Unknown']
         pred_data[image_name] = filtered_predictions
 
+    # Crea l'oggetto evaluator, passando la mappatura
+    coco_evaluator = CocoEvaluator(pred_data, iou_types=['bbox'])
+    
+    # print(pred_data)
+
     # Calculate mAP
-    mAP, ap_list, incorrect_labels, correct_labels = evaluate_mAP(gt_data, pred_data, np.arange(0.5, 1.0, 0.05))
+    # mAP, ap_list, incorrect_labels, correct_labels = evaluate_mAP(gt_data, pred_data, np.arange(0.5, 1.0, 0.05))
 
-    print(f"mAP: {mAP*100:.4f}")
-    print(f"AP50: {ap_list[0]*100:.4f}, AP75: {ap_list[5]*100:.4f}")
+    # print(f"mAP: {mAP*100:.4f}")
+    # print(f"AP50: {ap_list[0]*100:.4f}, AP75: {ap_list[5]*100:.4f}")
 
-    # Output incorrect and correct label counts
-    if incorrect_labels or correct_labels:
-        print("\nIncorrectly and Correctly predicted labels:")
-        for label in set(incorrect_labels.keys()).union(set(correct_labels.keys())):
-            correct_count = correct_labels.get(label, 0)
-            incorrect_count = incorrect_labels.get(label, 0)
-            print(f"Category: {label}, Correct Predictions: {correct_count}, Incorrect Predictions: {incorrect_count}")
-    else:
-        print("\nNo incorrect predictions.")
+    # # Output incorrect and correct label counts
+    # if incorrect_labels or correct_labels:
+    #     print("\nIncorrectly and Correctly predicted labels:")
+    #     for label in set(incorrect_labels.keys()).union(set(correct_labels.keys())):
+    #         correct_count = correct_labels.get(label, 0)
+    #         incorrect_count = incorrect_labels.get(label, 0)
+    #         print(f"Category: {label}, Correct Predictions: {correct_count}, Incorrect Predictions: {incorrect_count}")
+    # else:
+    #     print("\nNo incorrect predictions.")
 
-    # Output prediction statistics
-    total_predictions, class_counts = prediction_statistics(pred_data)
-    print(f"\nTotal Predictions: {total_predictions}")
-    print(f"Number of Classes: {len(class_counts)}")
-    print("Predictions per Class:")
-    for category, count in class_counts.items():
-        print(f"  {category}: {count}")
+    # # Output prediction statistics
+    # total_predictions, class_counts = prediction_statistics(pred_data)
+    # print(f"\nTotal Predictions: {total_predictions}")
+    # print(f"Number of Classes: {len(class_counts)}")
+    # print("Predictions per Class:")
+    # for category, count in class_counts.items():
+    #     print(f"  {category}: {count}")

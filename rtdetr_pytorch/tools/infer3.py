@@ -347,7 +347,7 @@ def main(args, ):
     cfg = YAMLConfig(args.config, resume=args.resume)
     print(f"[INFO] Dataset: {args.input}")
     print(f"[INFO] Device: {args.device}")
-    print(f"[INFO] NC: {args.numberofboxes}")
+    # print(f"[INFO] NC: {args.numberofboxes}")
     if args.resume:
         checkpoint = torch.load(args.resume, map_location='cpu') 
         if 'ema' in checkpoint:
