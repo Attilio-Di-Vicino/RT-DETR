@@ -203,7 +203,7 @@ def filter_predictions(predictions):
             filtered_predictions[image_name] = valid_annotations
     return filtered_predictions
 
-if __name__ == "__main__":
+def eval(path):
     # GT_JSON_PATH = "../../PascalCOCO/valid/_annotations.coco.json"
     # PREDICTIONS_FOLDER = "../../PascalCOCO/predictions"  
     # gt_data, category_pascal = load_ground_truth(GT_JSON_PATH)
@@ -213,7 +213,7 @@ if __name__ == "__main__":
     # print(f"mAP: {mAP*100:.4f}")
     # print(f"AP50: {ap_list[0]*100:.4f}, AP75: {ap_list[5]*100:.4f}")
     GT_JSON_PATH = "../../PascalCOCO/valid/_annotations.coco.json"
-    PREDICTIONS_FOLDER = "../../PascalCOCO/predictions"
+    PREDICTIONS_FOLDER = path
 
     # Carica le GT
     with open(GT_JSON_PATH, 'r') as f:
@@ -238,5 +238,5 @@ if __name__ == "__main__":
     coco_eval.evaluate()
     coco_eval.accumulate()
     coco_eval.summarize()
-
-
+    coco_metrics = coco_eval.stats
+    return coco_metrics

@@ -285,29 +285,31 @@ def main(args, ):
     else:
         fps = len(execution_time)
     # Model evaluation
-    GT_JSON_PATH = "../../PascalCOCO/valid/_annotations.coco.json"
-    PREDICTIONS_FOLDER = f"{args.output}/images/predictions"
-    # Carica le GT
-    with open(GT_JSON_PATH, 'r') as f:
-        gt_coco = json.load(f)
-    image_id_to_name = {img["id"]: img["file_name"] for img in gt_coco["images"]}
-    name_to_image_id = {v: k for k, v in image_id_to_name.items()}
+    # GT_JSON_PATH = "../../PascalCOCO/valid/_annotations.coco.json"
+    # PREDICTIONS_FOLDER = f"{args.output}/images/predictions"
+    # # Carica le GT
+    # with open(GT_JSON_PATH, 'r') as f:
+    #     gt_coco = json.load(f)
+    # image_id_to_name = {img["id"]: img["file_name"] for img in gt_coco["images"]}
+    # name_to_image_id = {v: k for k, v in image_id_to_name.items()}
 
-    # Carica le predizioni direttamente in formato COCO JSON
-    predictions_coco = load_predictions_coco_format(PREDICTIONS_FOLDER, name_to_image_id)
+    # # Carica le predizioni direttamente in formato COCO JSON
+    # predictions_coco = load_predictions_coco_format(PREDICTIONS_FOLDER, name_to_image_id)
 
-    # Salva su file
-    with open("PascalCOCO/valid3_out/predictions/predictions_coco_format.json", "w") as f:
-        json.dump(predictions_coco, f)
+    # # Salva su file
+    # with open("PascalCOCO/valid3_out/predictions/predictions_coco_format.json", "w") as f:
+    #     json.dump(predictions_coco, f)
 
-    coco_gt = COCO(GT_JSON_PATH)
-    coco_dt = coco_gt.loadRes("predictions_coco_format.json")
+    # coco_gt = COCO(GT_JSON_PATH)
+    # coco_dt = coco_gt.loadRes("predictions_coco_format.json")
 
-    coco_eval = COCOeval(coco_gt, coco_dt, 'bbox')
-    coco_eval.evaluate()
-    coco_eval.accumulate()
-    coco_eval.summarize()
-    coco_metrics = coco_eval.stats
+    # coco_eval = COCOeval(coco_gt, coco_dt, 'bbox')
+    # coco_eval.evaluate()
+    # coco_eval.accumulate()
+    # coco_eval.summarize()
+    # coco_metrics = coco_eval.stats
+    from eval import eval
+    coco_metrics = eval(f"{args.output}/images/predictions")
     with open(info_path, "a") as f:
         f.write(f"------------------------------------------------\n")  # Scrivi il tempo medio
         if torch.cuda.is_available() and args.device == "cuda":
