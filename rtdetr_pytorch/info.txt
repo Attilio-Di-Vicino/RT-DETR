@@ -371,4 +371,25 @@ Average execution time: 0.0466 sec
 Total images processed: 182
 FPS: 21.47
 GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 809 MB, Free Memory: 64135 MB
+------------------------------------------------------------------------------------------------
+Using GPU: TRUE
+Slide: False
+Total time: 4.2270 sec
+Average execution time: 2.1135 sec
+Total images processed: 2
+FPS: 0.47
+GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 799 MB, Free Memory: 64145 MB
+COCO Evaluation Results:
+AP (IoU=0.50:0.95) = 0.000
+AP (IoU=0.50)      = 0.000
+AP (IoU=0.75)      = 0.000
+AP (small)         = 0.000
+AP (medium)        = 0.000
+AP (large)         = 0.000
+AR (maxDets=1)     = 0.000
+AR (maxDets=10)    = 0.000
+AR (maxDets=100)   = 0.000
+AR (small)         = 0.000
+AR (medium)        = 0.000
+AR (large)         = 0.000
 ------------------------------------------------
