@@ -297,7 +297,7 @@ def main(args, ):
     predictions_coco = load_predictions_coco_format(PREDICTIONS_FOLDER, name_to_image_id)
 
     # Salva su file
-    with open("PascalCOCO/valid3_out/predictions/predictions_coco_format.json", "w") as f:
+    with open(f"{PREDICTIONS_FOLDER}/predictions_coco_format.json", "w") as f:
         json.dump(predictions_coco, f)
 
     coco_gt = COCO(GT_JSON_PATH)
