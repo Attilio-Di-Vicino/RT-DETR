@@ -75,6 +75,51 @@ def load_predictions(predictions_folder):
                 })
     return pred_annotations
 
+def load_predictions_coco_format(predictions_folder, name_to_image_id):
+    """Carica le predizioni e le restituisce direttamente in formato COCO JSON"""
+    results = []
+    for txt_file in glob(os.path.join(predictions_folder, "*.txt")):
+        image_name = os.path.basename(txt_file).replace(".txt", "")
+        if image_name not in name_to_image_id:
+            continue
+
+        image_id = name_to_image_id[image_name]
+
+        with open(txt_file, 'r') as f:
+            lines = f.readlines()
+
+        for line in lines:
+            if "label:" in line and "bbox:" in line:
+                parts = line.strip().split(", bbox: ")
+                label_conf = parts[0].replace("label: ", "").split()
+
+                try:
+                    label_num = int(label_conf[0])
+                    conf = float(label_conf[1])
+                except ValueError as e:
+                    print(f"Errore parsing {image_name}: {label_conf} | {e}")
+                    continue
+
+                # Map category (come fai nel tuo codice)
+                if label_num in model_to_dataset_mapping:
+                    category_id = model_to_dataset_mapping[label_num]
+                else:
+                    category_id = -1
+
+                if category_id == -1:
+                    continue  # Saltiamo le categorie sconosciute
+
+                bbox = parse_bbox(parts[1])
+                bbox_xywh = convert_to_xywh(bbox)
+
+                results.append({
+                    "image_id": image_id,
+                    "category_id": category_id,
+                    "bbox": bbox_xywh,
+                    "score": conf
+                })
+    return results
+
 def compute_ap(recall, precision):
     """Compute Average Precision (AP) given recall and precision values."""
     recall = np.concatenate(([0.], recall, [1.]))
@@ -159,11 +204,39 @@ def filter_predictions(predictions):
     return filtered_predictions
 
 if __name__ == "__main__":
+    # GT_JSON_PATH = "../../PascalCOCO/valid/_annotations.coco.json"
+    # PREDICTIONS_FOLDER = "../../PascalCOCO/predictions"  
+    # gt_data, category_pascal = load_ground_truth(GT_JSON_PATH)
+    # predictions = load_predictions(PREDICTIONS_FOLDER)
+    # filtered_predictions = filter_predictions(predictions)
+    # mAP, ap_list, incorrect_labels, correct_labels = evaluate_mAP(gt_data, predictions, np.arange(0.5, 1.0, 0.05))
+    # print(f"mAP: {mAP*100:.4f}")
+    # print(f"AP50: {ap_list[0]*100:.4f}, AP75: {ap_list[5]*100:.4f}")
     GT_JSON_PATH = "../../PascalCOCO/valid/_annotations.coco.json"
-    PREDICTIONS_FOLDER = "../../PascalCOCO/predictions"  
-    gt_data, category_pascal = load_ground_truth(GT_JSON_PATH)
-    predictions = load_predictions(PREDICTIONS_FOLDER)
-    filtered_predictions = filter_predictions(predictions)
-    mAP, ap_list, incorrect_labels, correct_labels = evaluate_mAP(gt_data, predictions, np.arange(0.5, 1.0, 0.05))
-    print(f"mAP: {mAP*100:.4f}")
-    print(f"AP50: {ap_list[0]*100:.4f}, AP75: {ap_list[5]*100:.4f}")
+    PREDICTIONS_FOLDER = "../../PascalCOCO/predictions"
+
+    # Carica le GT
+    with open(GT_JSON_PATH, 'r') as f:
+        gt_coco = json.load(f)
+    image_id_to_name = {img["id"]: img["file_name"] for img in gt_coco["images"]}
+    name_to_image_id = {v: k for k, v in image_id_to_name.items()}
+
+    # Carica le predizioni direttamente in formato COCO JSON
+    predictions_coco = load_predictions_coco_format(PREDICTIONS_FOLDER, name_to_image_id)
+
+    # Salva su file
+    with open("predictions_coco_format.json", "w") as f:
+        json.dump(predictions_coco, f)
+
+    from pycocotools.coco import COCO
+    from pycocotools.cocoeval import COCOeval
+
+    coco_gt = COCO(GT_JSON_PATH)
+    coco_dt = coco_gt.loadRes("predictions_coco_format.json")
+
+    coco_eval = COCOeval(coco_gt, coco_dt, 'bbox')
+    coco_eval.evaluate()
+    coco_eval.accumulate()
+    coco_eval.summarize()
+
+

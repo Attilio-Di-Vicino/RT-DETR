@@ -14,7 +14,64 @@ from src.solver import TASKS
 import numpy as np
 import time
 from util import model_to_dataset_mapping, mscoco_category2color, mscoco_category2label, mscoco_label2category
+from pycocotools.coco import COCO
+from pycocotools.cocoeval import COCOeval
+import json
+from glob import glob
+import re
 
+def convert_to_xywh(boxes):
+    """Convert a bounding box from [xmin, ymin, xmax, ymax] to [x, y, width, height]."""
+    xmin, ymin, xmax, ymax = boxes
+    return [xmin, ymin, xmax - xmin, ymax - ymin]
+def parse_bbox(tensor_str):
+    """Convert a PyTorch tensor string to a list of floats."""
+    numbers = re.findall(r"tensor\(([\d.e-]+)", tensor_str)
+    return [float(num) for num in numbers] if numbers else []
+def load_predictions_coco_format(predictions_folder, name_to_image_id):
+    """Carica le predizioni e le restituisce direttamente in formato COCO JSON"""
+    results = []
+    for txt_file in glob(os.path.join(predictions_folder, "*.txt")):
+        image_name = os.path.basename(txt_file).replace(".txt", "")
+        if image_name not in name_to_image_id:
+            continue
+
+        image_id = name_to_image_id[image_name]
+
+        with open(txt_file, 'r') as f:
+            lines = f.readlines()
+
+        for line in lines:
+            if "label:" in line and "bbox:" in line:
+                parts = line.strip().split(", bbox: ")
+                label_conf = parts[0].replace("label: ", "").split()
+
+                try:
+                    label_num = int(label_conf[0])
+                    conf = float(label_conf[1])
+                except ValueError as e:
+                    print(f"Errore parsing {image_name}: {label_conf} | {e}")
+                    continue
+
+                # Map category (come fai nel tuo codice)
+                if label_num in model_to_dataset_mapping:
+                    category_id = model_to_dataset_mapping[label_num]
+                else:
+                    category_id = -1
+
+                if category_id == -1:
+                    continue  # Saltiamo le categorie sconosciute
+
+                bbox = parse_bbox(parts[1])
+                bbox_xywh = convert_to_xywh(bbox)
+
+                results.append({
+                    "image_id": image_id,
+                    "category_id": category_id,
+                    "bbox": bbox_xywh,
+                    "score": conf
+                })
+    return results
 def postprocess(labels, boxes, scores, iou_threshold=0.55):
     def calculate_iou(box1, box2):
         x1, y1, x2, y2 = box1
@@ -227,6 +284,30 @@ def main(args, ):
         fps = len(execution_time) / total_time
     else:
         fps = len(execution_time)
+    # Model evaluation
+    GT_JSON_PATH = "../../PascalCOCO/valid/_annotations.coco.json"
+    PREDICTIONS_FOLDER = f"{args.output}/images/predictions"
+    # Carica le GT
+    with open(GT_JSON_PATH, 'r') as f:
+        gt_coco = json.load(f)
+    image_id_to_name = {img["id"]: img["file_name"] for img in gt_coco["images"]}
+    name_to_image_id = {v: k for k, v in image_id_to_name.items()}
+
+    # Carica le predizioni direttamente in formato COCO JSON
+    predictions_coco = load_predictions_coco_format(PREDICTIONS_FOLDER, name_to_image_id)
+
+    # Salva su file
+    with open("PascalCOCO/valid3_out/predictions/predictions_coco_format.json", "w") as f:
+        json.dump(predictions_coco, f)
+
+    coco_gt = COCO(GT_JSON_PATH)
+    coco_dt = coco_gt.loadRes("predictions_coco_format.json")
+
+    coco_eval = COCOeval(coco_gt, coco_dt, 'bbox')
+    coco_eval.evaluate()
+    coco_eval.accumulate()
+    coco_eval.summarize()
+    coco_metrics = coco_eval.stats
     with open(info_path, "a") as f:
         f.write(f"------------------------------------------------\n")  # Scrivi il tempo medio
         if torch.cuda.is_available() and args.device == "cuda":
@@ -237,6 +318,19 @@ def main(args, ):
         f.write(f"Total images processed: {len(execution_time)}\n")  # Scrivi il numero di immagini processate
         f.write(f"FPS: {fps:.2f}\n")
         f.write(f"{gpu_info}\n")  # Scrivi le informazioni sulla GPU
+        f.write(f"COCO Evaluation Results:\n")
+        f.write(f"AP (IoU=0.50:0.95) = {coco_metrics[0]:.3f}\n")
+        f.write(f"AP (IoU=0.50)      = {coco_metrics[1]:.3f}\n")
+        f.write(f"AP (IoU=0.75)      = {coco_metrics[2]:.3f}\n")
+        f.write(f"AP (small)         = {coco_metrics[3]:.3f}\n")
+        f.write(f"AP (medium)        = {coco_metrics[4]:.3f}\n")
+        f.write(f"AP (large)         = {coco_metrics[5]:.3f}\n")
+        f.write(f"AR (maxDets=1)     = {coco_metrics[6]:.3f}\n")
+        f.write(f"AR (maxDets=10)    = {coco_metrics[7]:.3f}\n")
+        f.write(f"AR (maxDets=100)   = {coco_metrics[8]:.3f}\n")
+        f.write(f"AR (small)         = {coco_metrics[9]:.3f}\n")
+        f.write(f"AR (medium)        = {coco_metrics[10]:.3f}\n")
+        f.write(f"AR (large)         = {coco_metrics[11]:.3f}\n")
         f.write(f"------------------------------------------------")  # Scrivi il tempo medio
 
     
