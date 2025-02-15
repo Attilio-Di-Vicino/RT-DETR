@@ -8,7 +8,7 @@
 #SBATCH --ntasks-per-node=4
 #SBATCH --gres=gpu:1
 #SBATCH --mem=123000
-#SBATCH --job-name=pinns_angio_gpu
+#SBATCH --job-name=rtdetr
 
 DATASET=$1
 DATASET_OUT=$2
