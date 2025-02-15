@@ -1,0 +1,7 @@
+label: 5 0.97, bbox: [tensor(70.8836, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(34.0211, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(499.4946, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(375.0512, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: 1 0.83, bbox: [tensor(0.3731, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(240.2453, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(17.7957, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(299.5902, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: 1 0.77, bbox: [tensor(54.3677, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(243.7801, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(70.5165, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(290.9850, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: 1 0.75, bbox: [tensor(16.8347, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(246.9051, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(31.5337, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(298.6780, device='cuda:0', grad_fn=<UnbindBackward0>)]
+label: 1 0.66, bbox: [tensor(44.4015, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(253.3408, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(56.6218, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(289.7280, device='cuda:0', grad_fn=<UnbindBackward0>)]
+
+Execution time: 0.0214 sec
