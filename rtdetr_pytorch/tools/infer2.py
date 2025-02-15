@@ -286,9 +286,9 @@ def main(args, ):
         fps = len(execution_time)
     # Model evaluation
     GT_JSON_PATH = "../PascalCOCO/valid/_annotations.coco.json"
-    PREDICTIONS_FOLDER = f"{args.output}/images/predictions"
+    PREDICTIONS_FOLDER = f"{args.output}/predictions"
     os.makedirs(PREDICTIONS_FOLDER, exist_ok=True)
-    
+
     # Carica le GT
     with open(GT_JSON_PATH, 'r') as f:
         gt_coco = json.load(f)
