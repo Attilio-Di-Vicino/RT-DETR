@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "tools/infer2.py", line 350, in <module>
+    main(args)
+  File "tools/infer2.py", line 312, in main
+    coco_metrics = eval(f"{args.output}/images/predictions")
+  File "/leonardo_work/IscrC_LASAN24_0/rt-detr/RT-DETR/rtdetr_pytorch/tools/eval.py", line 235, in eval
+    coco_dt = coco_gt.loadRes("predictions_coco_format.json")
+  File "/leonardo/home/userexternal/adivicin/rtdetr/lib/python3.8/site-packages/pycocotools/coco.py", line 329, in loadRes
+    if 'caption' in anns[0]:
+IndexError: list index out of range

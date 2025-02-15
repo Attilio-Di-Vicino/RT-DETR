@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "tools/infer2.py", line 348, in <module>
-    main(args)
-  File "tools/infer2.py", line 291, in main
-    with open(GT_JSON_PATH, 'r') as f:
-FileNotFoundError: [Errno 2] No such file or directory: '../../PascalCOCO/valid/_annotations.coco.json'
