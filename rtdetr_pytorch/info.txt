@@ -392,4 +392,25 @@ AR (maxDets=100)   = 0.000
 AR (small)         = 0.000
 AR (medium)        = 0.000
 AR (large)         = 0.000
+------------------------------------------------------------------------------------------------
+Using GPU: TRUE
+Slide: False
+Total time: 5.4881 sec
+Average execution time: 0.0302 sec
+Total images processed: 182
+FPS: 33.16
+GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 809 MB, Free Memory: 64135 MB
+COCO Evaluation Results:
+AP (IoU=0.50:0.95) = 0.002
+AP (IoU=0.50)      = 0.002
+AP (IoU=0.75)      = 0.002
+AP (small)         = 0.000
+AP (medium)        = 0.001
+AP (large)         = 0.003
+AR (maxDets=1)     = 0.002
+AR (maxDets=10)    = 0.002
+AR (maxDets=100)   = 0.002
+AR (small)         = 0.000
+AR (medium)        = 0.001
+AR (large)         = 0.003
 ------------------------------------------------
