@@ -212,7 +212,7 @@ def eval(path):
     # mAP, ap_list, incorrect_labels, correct_labels = evaluate_mAP(gt_data, predictions, np.arange(0.5, 1.0, 0.05))
     # print(f"mAP: {mAP*100:.4f}")
     # print(f"AP50: {ap_list[0]*100:.4f}, AP75: {ap_list[5]*100:.4f}")
-    GT_JSON_PATH = "../../PascalCOCO/valid/_annotations.coco.json"
+    GT_JSON_PATH = "../PascalCOCO/valid/_annotations.coco.json"
     PREDICTIONS_FOLDER = path
 
     # Carica le GT
