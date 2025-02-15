@@ -303,7 +303,7 @@ def main(args, ):
         json.dump(predictions_coco, f)
 
     coco_gt = COCO(GT_JSON_PATH)
-    coco_dt = coco_gt.loadRes("predictions_coco_format.json")
+    coco_dt = coco_gt.loadRes(f"{PREDICTIONS_FOLDER}/predictions_coco_format.json")
 
     coco_eval = COCOeval(coco_gt, coco_dt, 'bbox')
     coco_eval.evaluate()
