@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "tools/infer2.py", line 350, in <module>
+    main(args)
+  File "tools/infer2.py", line 312, in main
+    coco_metrics = eval(f"{args.output}/images/predictions")
+  File "/leonardo_work/IscrC_LASAN24_0/rt-detr/RT-DETR/rtdetr_pytorch/tools/eval.py", line 219, in eval
+    with open(GT_JSON_PATH, 'r') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '../../PascalCOCO/valid/_annotations.coco.json'
