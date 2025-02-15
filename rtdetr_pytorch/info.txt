@@ -379,19 +379,6 @@ Average execution time: 2.1135 sec
 Total images processed: 2
 FPS: 0.47
 GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 799 MB, Free Memory: 64145 MB
-COCO Evaluation Results:
-AP (IoU=0.50:0.95) = 0.000
-AP (IoU=0.50)      = 0.000
-AP (IoU=0.75)      = 0.000
-AP (small)         = 0.000
-AP (medium)        = 0.000
-AP (large)         = 0.000
-AR (maxDets=1)     = 0.000
-AR (maxDets=10)    = 0.000
-AR (maxDets=100)   = 0.000
-AR (small)         = 0.000
-AR (medium)        = 0.000
-AR (large)         = 0.000
 ------------------------------------------------------------------------------------------------
 Using GPU: TRUE
 Slide: False
@@ -400,19 +387,6 @@ Average execution time: 0.0302 sec
 Total images processed: 182
 FPS: 33.16
 GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 809 MB, Free Memory: 64135 MB
-COCO Evaluation Results:
-AP (IoU=0.50:0.95) = 0.002
-AP (IoU=0.50)      = 0.002
-AP (IoU=0.75)      = 0.002
-AP (small)         = 0.000
-AP (medium)        = 0.001
-AP (large)         = 0.003
-AR (maxDets=1)     = 0.002
-AR (maxDets=10)    = 0.002
-AR (maxDets=100)   = 0.002
-AR (small)         = 0.000
-AR (medium)        = 0.001
-AR (large)         = 0.003
 ------------------------------------------------------------------------------------------------
 Using GPU: TRUE
 Slide: False
@@ -421,19 +395,6 @@ Average execution time: 0.0346 sec
 Total images processed: 484
 FPS: 28.91
 GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 807 MB, Free Memory: 64137 MB
-COCO Evaluation Results:
-AP (IoU=0.50:0.95) = 0.004
-AP (IoU=0.50)      = 0.005
-AP (IoU=0.75)      = 0.005
-AP (small)         = 0.000
-AP (medium)        = 0.002
-AP (large)         = 0.006
-AR (maxDets=1)     = 0.004
-AR (maxDets=10)    = 0.004
-AR (maxDets=100)   = 0.004
-AR (small)         = 0.000
-AR (medium)        = 0.002
-AR (large)         = 0.006
 ------------------------------------------------------------------------------------------------
 Using GPU: TRUE
 Slide: False
@@ -442,17 +403,4 @@ Average execution time: 0.0228 sec
 Total images processed: 3422
 FPS: 43.77
 GPU: NVIDIA A100-SXM-64GB, Total Memory: 64944 MB, Allocated Memory: 806 MB, Free Memory: 64138 MB
-COCO Evaluation Results:
-AP (IoU=0.50:0.95) = 0.022
-AP (IoU=0.50)      = 0.029
-AP (IoU=0.75)      = 0.026
-AP (small)         = 0.009
-AP (medium)        = 0.024
-AP (large)         = 0.025
-AR (maxDets=1)     = 0.029
-AR (maxDets=10)    = 0.036
-AR (maxDets=100)   = 0.036
-AR (small)         = 0.016
-AR (medium)        = 0.037
-AR (large)         = 0.038
 ------------------------------------------------
