@@ -8,11 +8,11 @@ from pathlib import Path
 from functools import partial
 import subprocess
 
-def run_inference(params):
+def run_inference():
     """Esegue inferenza su un singolo frame usando CUDA."""
-    image_path, args, gpu_id = params 
-    print(f"Processing {image_path} on GPU {gpu_id}...")
-    output_path = image_path.replace("temp_frames", "processed_frames")
+    # vimage_path, args, gpu_id = params 
+    # print(f"Processing {image_path} on GPU {gpu_id}...")
+    # output_path = image_path.replace("temp_frames", "processed_frames")
     # command = [
     #     "python", "tools/infer.py",
     #     "-c", args.config,
@@ -31,7 +31,7 @@ def run_inference(params):
     ]
         
     env = os.environ.copy()
-    env["CUDA_VISIBLE_DEVICES"] = str(gpu_id)  # Assegna la GPU corretta
+    env["CUDA_VISIBLE_DEVICES"] = 0  # Assegna la GPU corretta
 
     subprocess.run(command, env=env)
 
@@ -89,8 +89,8 @@ def main(args):
     #     params = [(frame_path, args, i % device_count) for i, frame_path in enumerate(frame_paths)]
     #     pool.map(run_inference, params)
     # print("Inferenza completata!")
-    params = [(frame_path, args, i % device_count) for i, frame_path in enumerate(frame_paths)]
-    run_inference(params)
+    # params = [(frame_path, args, i % device_count) for i, frame_path in enumerate(frame_paths)]
+    run_inference()
 
     output_video = args.output
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec per MP4
