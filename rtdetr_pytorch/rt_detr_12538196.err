@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "tools/infer2.py", line 350, in <module>
-    main(args)
-  File "tools/infer2.py", line 300, in main
-    with open(f"{PREDICTIONS_FOLDER}/predictions_coco_format.json", "w") as f:
-FileNotFoundError: [Errno 2] No such file or directory: '../PascalCOCO/valid2_out/images/predictions/predictions_coco_format.json'
