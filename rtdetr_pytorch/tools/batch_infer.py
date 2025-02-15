@@ -13,13 +13,23 @@ def run_inference(params):
     image_path, args, gpu_id = params 
     print(f"Processing {image_path} on GPU {gpu_id}...")
     output_path = image_path.replace("temp_frames", "processed_frames")
+    # command = [
+    #     "python", "tools/infer.py",
+    #     "-c", args.config,
+    #     "-r", args.weights,
+    #     "-f", str(image_path),
+    #     "-d", str("cuda")
+    # ]
+
     command = [
         "python", "tools/infer.py",
         "-c", args.config,
         "-r", args.weights,
-        "-f", str(image_path),
+        "-i", "temp_frames",
+        "-o", "../PascalCOCO/frames_out"
         "-d", str("cuda")
     ]
+        
     env = os.environ.copy()
     env["CUDA_VISIBLE_DEVICES"] = str(gpu_id)  # Assegna la GPU corretta
 
@@ -75,10 +85,12 @@ def main(args):
     cap.release()
     print(f"Totale frame estratti: {frame_count}")
 
-    with mp.Pool(processes=device_count) as pool:
-        params = [(frame_path, args, i % device_count) for i, frame_path in enumerate(frame_paths)]
-        pool.map(run_inference, params)
-    print("Inferenza completata!")
+    # with mp.Pool(processes=device_count) as pool:
+    #     params = [(frame_path, args, i % device_count) for i, frame_path in enumerate(frame_paths)]
+    #     pool.map(run_inference, params)
+    # print("Inferenza completata!")
+    params = [(frame_path, args, i % device_count) for i, frame_path in enumerate(frame_paths)]
+    run_inference(params)
 
     output_video = args.output
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec per MP4
