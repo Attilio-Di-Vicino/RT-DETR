@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "tools/batch_infer.py", line 137, in <module>
+    main(args)
+  File "tools/batch_infer.py", line 93, in main
+    run_inference()
+  File "tools/batch_infer.py", line 36, in run_inference
+    subprocess.run(command, env=env)
+  File "/leonardo/prod/spack/05/install/0.21/linux-rhel8-icelake/oneapi-2023.2.0/python-3.8.18-pfyxh3toobikzp2d3z5lzxjuiqjs76mc/lib/python3.8/subprocess.py", line 493, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/leonardo/prod/spack/05/install/0.21/linux-rhel8-icelake/oneapi-2023.2.0/python-3.8.18-pfyxh3toobikzp2d3z5lzxjuiqjs76mc/lib/python3.8/subprocess.py", line 858, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/leonardo/prod/spack/05/install/0.21/linux-rhel8-icelake/oneapi-2023.2.0/python-3.8.18-pfyxh3toobikzp2d3z5lzxjuiqjs76mc/lib/python3.8/subprocess.py", line 1642, in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+  File "/leonardo/prod/spack/05/install/0.21/linux-rhel8-icelake/oneapi-2023.2.0/python-3.8.18-pfyxh3toobikzp2d3z5lzxjuiqjs76mc/lib/python3.8/os.py", line 806, in fsencode
+    filename = fspath(filename)  # Does type-checking of `filename`.
+TypeError: expected str, bytes or os.PathLike object, not int
