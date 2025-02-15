@@ -1,0 +1,3 @@
+label: 3 0.86, bbox: [tensor(1757.6216, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(707.9099, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(1920.0850, device='cuda:0', grad_fn=<UnbindBackward0>), tensor(786.5475, device='cuda:0', grad_fn=<UnbindBackward0>)]
+
+Execution time: 0.0225 sec
