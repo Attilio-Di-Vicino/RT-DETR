@@ -22,7 +22,7 @@ def run_inference():
     # ]
 
     command = [
-        "python", "tools/infer2run.py",
+        "python", "tools/infer2.py",
         "-c", args.config,
         "-r", args.weights,
         "-i", "temp_frames",
